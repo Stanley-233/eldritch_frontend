@@ -27,10 +27,8 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Welcome, ${user.name}!', style: TextStyle(fontSize: 24)),
-            SizedBox(height: 20),
-            Text('Email: ${user.email}'),
             SizedBox(height: 10),
-            Text('Token: ${user.token.substring(0, 10)}...'),
+            Text('Token: ${user.password}'),
           ],
         ),
       ),

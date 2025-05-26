@@ -27,22 +27,20 @@ class AuthService with ChangeNotifier {
   }
 
   // 登录
-  Future<bool> login(String email, String password) async {
+  Future<bool> login(String username, String password) async {
     _isLoading = true;
     notifyListeners();
 
     // 模拟API调用
-    await Future.delayed(Duration(seconds: 2));
+    // await Future.delayed(Duration(seconds: 2));
 
     // 这里应该是真实的API调用
     // final response = await http.post(...);
 
     // 模拟成功登录
     _user = User(
-      id: '123',
-      name: 'Flutter User',
-      email: email,
-      token: 'fake_token_123',
+      name: username,
+      password: password
     );
 
     // 保存用户到本地存储
