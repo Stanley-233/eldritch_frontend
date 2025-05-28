@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 400),
+              constraints: BoxConstraints(maxWidth: 400), 
               child: Card(
                 elevation: 4, // 阴影效果
                 child: Padding(
