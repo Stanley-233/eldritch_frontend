@@ -8,7 +8,6 @@ void main() async {
 
   // 初始化认证服务并加载用户
   final authService = AuthService();
-  await authService.loadUser();
 
   runApp(
     ChangeNotifierProvider(

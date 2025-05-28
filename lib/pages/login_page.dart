@@ -20,7 +20,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
 
@@ -63,31 +62,85 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         ),
                         SizedBox(height: 20),
-                        if (authService.isLoading)
-                          CircularProgressIndicator()
-                        else
-                          SizedBox(
-                            width: double.infinity, // 按钮宽度填满可用空间
-                            child: ElevatedButton(
-                              onPressed: () async {
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              try {
+                                if (!_formKey.currentState!.validate()) return;
+                                final status = await authService.login(
+                                  _usernameController.text,
+                                  _passwordController.text,
+                                ).timeout(const Duration(seconds: 1));
+                                switch (status) {
+                                  case LoginStatus.success:
+                                    Navigator.pushReplacementNamed(context, '/home');
+                                    break;
+                                  case LoginStatus.wrongPassword:
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('密码错误')),
+                                    );
+                                    break;
+                                  case LoginStatus.userNotFound:
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('用户不存在')),
+                                    );
+                                    break;
+                                  case LoginStatus.serverError:
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('服务器错误，请稍后再试')),
+                                    );
+                                    break;
+                                }
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('连接超时或内部错误，请稍后再试')),
+                                );
+                              }
+                            },
+                            child: Text('登录'),
+                          ),
+                        ),
+                        // 登录与注册间隔
+                        SizedBox(height: 20),
+                        // Register Button
+                        SizedBox(
+                          width: double.infinity, // 按钮宽度填满可用空间
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              try {
                                 if (_formKey.currentState!.validate()) {
-                                  final success = await authService.login(
+                                  final status = await authService.register(
                                     _usernameController.text,
                                     _passwordController.text,
                                   );
-
-                                  if (success) {
-                                    Navigator.pushReplacementNamed(context, '/home');
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text('登陆失败')),
-                                    );
+                                  switch (status) {
+                                    case RegisterStatus.success:
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(content: Text('注册成功，请登录')),
+                                      );
+                                      break;
+                                    case RegisterStatus.userExists:
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(content: Text('用户已存在，请尝试其他用户名')),
+                                      );
+                                      break;
+                                    case RegisterStatus.serverError:
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(content: Text('服务器错误，请稍后再试')),
+                                      );
+                                      break;
                                   }
                                 }
-                              },
-                              child: Text('登录'),
-                            ),
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('连接超时或内部错误，请稍后再试')),
+                                );
+                              }
+                            },
+                            child: Text('注册'),
                           ),
+                        ),
                       ],
                     ),
                   ),
