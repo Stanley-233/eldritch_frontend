@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/auth_service.dart';
@@ -10,39 +12,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _FunctionAreaState extends State<StatefulWidget> {
-  int funID = 0;
-
-  void _messageMode() {
-    setState(() {
-      funID = 0;
-    });
-  }
-
-  void _commitMode() {
-    setState(() {
-      funID = 1;
-    });
-  }
-
-  void _feedbackMode() {
-    setState(() {
-      funID = 2;
-    });
-  }
-
-  void _manageMode() {
-    setState(() {
-      funID = 3;
-    });
-  }
+  final ValueNotifier<int> funID = ValueNotifier(0);
+  final _switchPage = PageController();
 
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
     final user = authService.user!;
-    //按钮大小
-    const double buttonWidth = 48 * 1.618;
-    const double buttonHeight = 48;
     //UI颜色
     final Map<int, Color> buttonColors = {
       0: Colors.black26, //背景颜色
@@ -51,112 +27,83 @@ class _FunctionAreaState extends State<StatefulWidget> {
       3: Colors.purple[100]! //悬停颜色
     };
 
+    const destinations = [
+      NavigationRailDestination(
+        selectedIcon: Icon(Icons.mail),
+        icon: Icon(Icons.mail_outlined),
+        label: Text('消息'),
+      ),
+      NavigationRailDestination(
+        selectedIcon: Icon(Icons.commit),
+        icon: Icon(Icons.commit_outlined),
+        label: Text('工单'),
+      ),
+      NavigationRailDestination(
+        selectedIcon: Icon(Icons.notifications),
+        icon: Icon(Icons.notifications_outlined),
+        label: Text('反馈'),
+      ),
+      NavigationRailDestination(
+        selectedIcon: Icon(Icons.manage_accounts),
+        icon: Icon(Icons.manage_accounts_outlined),
+        label: Text('管理'),
+      ),
+    ];
+
+    Widget buildLeftNavigation(int index) {
+      return NavigationRail(
+          groupAlignment: 1.0,
+          labelType: NavigationRailLabelType.selected,
+          leading: SizedBox(
+              width: 50,
+              child: Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: ClipOval(
+                    child: InkWell(
+                        customBorder: const CircleBorder(),
+                        onTap: () {
+                          //待开发
+                        },
+                        child: Image.asset('assets/images/stupid_rabbit.jpg')),
+                  ))),
+          destinations: destinations,
+          selectedIndex: index,
+          onDestinationSelected: (int indexSelected) {
+            funID.value = indexSelected;
+            _switchPage.jumpToPage(indexSelected);
+          });
+    }
+
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
           actions: [
             IconButton(
               icon: Icon(Icons.logout),
               tooltip: '退出登录',
               onPressed: () async {
                 await authService.logout();
-                Navigator.pushReplacementNamed(context, '/login');
+                if (context.mounted) {
+                  Navigator.pushReplacementNamed((context), '/login');
+                }
               },
             ),
           ],
         ),
         body: Row(children: [
-          Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-            IconButton(
-              onPressed: _messageMode,
-              style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.resolveWith<Color>(
-                      (Set<WidgetState> states) {
-                    if (funID != 0) {
-                      if (states.contains(WidgetState.hovered)) {
-                        return buttonColors[3]!; // 悬停颜色
-                      }
-                      if (states.contains(WidgetState.pressed)) {
-                        return buttonColors[2]!; // 按下颜色
-                      }
-                      return buttonColors[0]!; // 默认颜色
-                    } else {
-                      return buttonColors[1]!;//激活颜色
-                    }
-                  }),
-                  minimumSize:
-                      WidgetStatePropertyAll(Size(buttonWidth, buttonHeight)),
-                  maximumSize:
-                      WidgetStatePropertyAll(Size(buttonWidth, buttonHeight))),
-              icon: Icon(Icons.mail),
-            ),
-            IconButton(
-                onPressed: _commitMode,
-                style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.resolveWith<Color>(
-                        (Set<WidgetState> states) {
-                      if (funID != 1) {
-                        if (states.contains(WidgetState.hovered)) {
-                          return buttonColors[3]!; // 悬停颜色
-                        }
-                        if (states.contains(WidgetState.pressed)) {
-                          return buttonColors[2]!; // 按下颜色
-                        }
-                        return buttonColors[0]!; // 默认颜色
-                      } else {
-                        return buttonColors[1]!;//激活颜色
-                      }
-                    }),
-                    minimumSize:
-                        WidgetStatePropertyAll(Size(buttonWidth, buttonHeight)),
-                    maximumSize: WidgetStatePropertyAll(
-                        Size(buttonWidth, buttonHeight))),
-                icon: Icon(Icons.commit)),
-            IconButton(
-                onPressed: _feedbackMode,
-                style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.resolveWith<Color>(
-                        (Set<WidgetState> states) {
-                      if (funID != 2) {
-                        if (states.contains(WidgetState.hovered)) {
-                          return buttonColors[3]!; // 悬停颜色
-                        }
-                        if (states.contains(WidgetState.pressed)) {
-                          return buttonColors[2]!; // 按下颜色
-                        }
-                        return buttonColors[0]!; // 默认颜色
-                      } else {
-                        return buttonColors[1]!;//激活颜色
-                      }
-                    }),
-                    minimumSize:
-                        WidgetStatePropertyAll(Size(buttonWidth, buttonHeight)),
-                    maximumSize: WidgetStatePropertyAll(
-                        Size(buttonWidth, buttonHeight))),
-                icon: Icon(Icons.notifications)),
-            IconButton(
-                onPressed: _manageMode,
-                style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.resolveWith<Color>(
-                        (Set<WidgetState> states) {
-                      if (funID != 3) {
-                        if (states.contains(WidgetState.hovered)) {
-                          return buttonColors[3]!; // 悬停颜色
-                        }
-                        if (states.contains(WidgetState.pressed)) {
-                          return buttonColors[2]!; // 按下颜色
-                        }
-                        return buttonColors[0]!; // 默认颜色
-                      } else {
-                        return buttonColors[1]!;//激活颜色
-                      }
-                    }),
-                    minimumSize:
-                        WidgetStatePropertyAll(Size(buttonWidth, buttonHeight)),
-                    maximumSize: WidgetStatePropertyAll(
-                        Size(buttonWidth, buttonHeight))),
-                icon: Icon(Icons.manage_accounts))
-          ]),
-          Center(child: Text('unfinished yet. '))
+          ValueListenableBuilder<int>(
+              valueListenable: funID,
+              builder: (_, index, __) => buildLeftNavigation(index)),
+          Expanded(
+              child: PageView(
+            controller: _switchPage,
+            children: const [
+              Text('消息'),
+              Text('视频会议'),
+              Text('通讯录'),
+              Text('云文档'),
+            ],
+          ))
         ]));
   }
 }
