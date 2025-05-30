@@ -80,11 +80,14 @@ class _LoginPageState extends State<LoginPage> {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text('密码错误')),
                                     );
+                                    _passwordController.clear();
                                     break;
                                   case LoginStatus.userNotFound:
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text('用户不存在')),
                                     );
+                                    _usernameController.clear();
+                                    _passwordController.clear();
                                     break;
                                   case LoginStatus.serverError:
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -124,6 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                                       ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(content: Text('用户已存在，请尝试其他用户名')),
                                       );
+                                      _usernameController.clear();
                                       break;
                                     case RegisterStatus.serverError:
                                       ScaffoldMessenger.of(context).showSnackBar(
@@ -145,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-              ),
+              )
             )
           ),
         ),
