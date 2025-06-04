@@ -97,7 +97,7 @@ class _FunctionAreaState extends State<StatefulWidget> {
           Expanded(
               child: PageView(
             controller: _switchPage,
-            children: const [
+            children: [
               Text('消息'),
               Text('工单'),
               Text('反馈'),
