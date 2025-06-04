@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:eldritch_frontend/pages/manage_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/auth_service.dart';
@@ -100,7 +101,7 @@ class _FunctionAreaState extends State<StatefulWidget> {
               Text('消息'),
               Text('工单'),
               Text('反馈'),
-              Text('管理'),
+              ManagePage(),
             ],
           ))
         ]));

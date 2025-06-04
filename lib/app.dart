@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Eldritch办公自动化工单系统',
+      title: 'Eldritch 办公自动化工单系统',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -20,8 +20,7 @@ class MyApp extends StatelessWidget {
           if (authService.isLoading) {
             return Scaffold(body: Center(child: CircularProgressIndicator()));
           } else {
-            //return authService.user == null ? LoginPage() : HomePage();
-            return HomePage();
+            return authService.user == null ? LoginPage() : HomePage();
           }
         },
       ),

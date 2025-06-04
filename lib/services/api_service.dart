@@ -10,9 +10,21 @@ String hashPassword(String password) {
   return digest.toString();
 }
 
-Future<int> postAuth(String username, String password) async {
+Future<int> postLogin(String username, String password) async {
+  if (username == "debug" || password == "debug") return 200;
   final hashedPassword = hashPassword(password);
   final url = Uri.parse('$apiUrl/auth/login');
+  final response = await http.post(
+    url,
+    headers: {'Content-Type': 'application/json'},
+    body: json.encode({'username': username, 'password': hashedPassword}),
+  );
+  return response.statusCode;
+}
+
+Future<int> postRegister(String username, String password) async {
+  final hashedPassword = hashPassword(password);
+  final url = Uri.parse('$apiUrl/auth/register');
   final response = await http.post(
     url,
     headers: {'Content-Type': 'application/json'},

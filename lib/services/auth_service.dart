@@ -37,7 +37,7 @@ class AuthService with ChangeNotifier {
   Future<LoginStatus> login(String username, String password) async {
     // _isLoading = true;
     notifyListeners();
-    final status = await postAuth(username, password);
+    final status = await postLogin(username, password);
     switch (status) {
       case 200:
         _user = User(name: username, password: password);
@@ -62,7 +62,7 @@ class AuthService with ChangeNotifier {
   Future<RegisterStatus> register(String username, String password) async {
     // _isLoading = true;
     notifyListeners();
-    final status = await postAuth(username, password);
+    final status = await postRegister(username, password);
     switch(status) {
       case 200:
         _user = User(name: username, password: password);

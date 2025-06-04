@@ -6,6 +6,12 @@ project(eldritch_frontend LANGUAGES CXX)
 # the on-disk name of your application.
 set(BINARY_NAME "eldritch_frontend")
 
+# Use Unicode for all projects.
+add_definitions(-DUNICODE -D_UNICODE)
+
+# Enable UTF-8 encoding
+add_compile_options("/utf-8")
+
 # Explicitly opt in to modern CMake behaviors to avoid warnings with recent
 # versions of CMake.
 cmake_policy(VERSION 3.14...3.25)

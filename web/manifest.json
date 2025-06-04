@@ -1,11 +1,11 @@
 {
-    "name": "eldritch_frontend",
-    "short_name": "eldritch_frontend",
+    "name": "Eldritch 办公自动化工单系统",
+    "short_name": "Eldritch OA",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Eldritch 办公自动化工单系统 - Web 端",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
