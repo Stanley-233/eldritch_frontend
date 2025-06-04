@@ -1,9 +1,13 @@
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'pages/home_page.dart';
+import 'pages/login_page.dart';
 import 'routes.dart';
 import 'services/auth_service.dart';
-import 'pages/login_page.dart';
-import 'pages/home_page.dart';
+
 
 class MyApp extends StatelessWidget {
   @override
@@ -13,6 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: kIsWasm || kIsWeb ? 'Roboto' : Platform.isWindows ? 'Microsoft YaHei' : 'Roboto',
       ),
       routes: AppRoutes.routes,
       home: Consumer<AuthService>(

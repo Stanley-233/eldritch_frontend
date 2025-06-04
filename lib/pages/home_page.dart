@@ -18,6 +18,7 @@ class _FunctionAreaState extends State<StatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
+
     const destinations = [
       NavigationRailDestination(
         selectedIcon: Icon(Icons.mail),
@@ -43,28 +44,27 @@ class _FunctionAreaState extends State<StatefulWidget> {
 
     Widget buildLeftNavigation(int index) {
       return NavigationRail(
-          groupAlignment: 1.0,
-          labelType: NavigationRailLabelType.selected,
-          leading: SizedBox(
-              width: 50,
-              child: Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: ClipOval(
-                    child: InkWell(
-                        customBorder: const CircleBorder(),
-                        onTap: () {
-                          //待开发
-                        },
-                        child: Image.asset('assets/images/stupid_rabbit.jpg')),
-                  ))),
-          destinations: destinations,
-          selectedIndex: index,
-          onDestinationSelected: (int indexSelected) {
-            funID.value = indexSelected;
-            _switchPage.jumpToPage(indexSelected);
-          });
+        groupAlignment: 1.0,
+        labelType: NavigationRailLabelType.selected,
+        leading: SizedBox(
+            width: 50,
+            child: Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: ClipOval(
+                  child: InkWell(
+                      customBorder: const CircleBorder(),
+                      onTap: () {
+                        //待开发
+                      },
+                      child: Image.asset('assets/images/stupid_rabbit.jpg')),
+                ))),
+        destinations: destinations,
+        selectedIndex: index,
+        onDestinationSelected: (int indexSelected) {
+          funID.value = indexSelected;
+          _switchPage.jumpToPage(indexSelected);
+        });
     }
-
     return Scaffold(
         body: Row(children: [
           ValueListenableBuilder<int>(
