@@ -6,7 +6,6 @@ import '../services/auth_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-
   @override
   State<StatefulWidget> createState() => _FunctionAreaState();
 }
@@ -99,11 +98,17 @@ class _FunctionAreaState extends State<StatefulWidget> {
             controller: _switchPage,
             children: const [
               Text('消息'),
-              Text('视频会议'),
-              Text('通讯录'),
-              Text('云文档'),
+              Text('工单'),
+              Text('反馈'),
+              Text('管理'),
             ],
           ))
         ]));
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    _switchPage.dispose();
   }
 }
