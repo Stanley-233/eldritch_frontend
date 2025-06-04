@@ -13,6 +13,7 @@ enum LoginStatus {
 
 enum RegisterStatus {
   success,
+  adminSuccess,
   userExists,
   serverError
 }
@@ -60,6 +61,11 @@ class AuthService with ChangeNotifier {
         _isLoading = false;
         notifyListeners();
         return RegisterStatus.success;
+      case 201:
+        _user = User(name: username, password: password);
+        _isLoading = false;
+        notifyListeners();
+        return RegisterStatus.adminSuccess;
       case 409:
         _isLoading = false;
         notifyListeners();

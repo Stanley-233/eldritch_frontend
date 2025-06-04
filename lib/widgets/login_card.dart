@@ -109,6 +109,11 @@ class LoginCard extends StatelessWidget {
                               SnackBar(content: Text('注册成功，请登录')),
                             );
                             break;
+                          case RegisterStatus.adminSuccess:
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('注册成功，请登录；由于系统中没有其他用户，你成为了系统管理员')),
+                            );
+                            break;
                           case RegisterStatus.userExists:
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('用户已存在，请尝试其他用户名')),
