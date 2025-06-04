@@ -29,12 +29,21 @@ class _CertainMessageState extends State<StatefulWidget> {
             )
           );
         } else if (snapshot.hasError) {
-          return Text('Unknown Error');
+          return Center(
+            child: Text('无法连接到服务器'),
+          );
         } else {
           // 成功的
           final response = snapshot.data;
           if(response!.statusCode != 200) {
-            return Text('Unknown Error');
+            if(response.statusCode == 404){
+              return Center(
+                child: Text('用户不存在，请重新登录'),
+              );
+            }
+            return Center(
+              child: Text("服务器内部错误"),
+            );
           }
           final messageList = extractFromJson(response.body);
           return ListView.separated(

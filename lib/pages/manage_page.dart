@@ -1,3 +1,4 @@
+import 'package:eldritch_frontend/pages/about_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:card_settings_ui/card_settings_ui.dart';
@@ -43,9 +44,10 @@ class _ManagePageState extends State<ManagePage> {
                   tiles: [
                     SettingsTile(
                       title: Text('新增用户组'),
+                      description: Text('创建一个新的用户组'),
                       leading: Icon(Icons.lock),
                       onPressed: (context) {
-                        // Navigator.pushNamed(context, '/settings/create_user_group');
+                        // TODO
                       },
                     )
                   ],
@@ -57,7 +59,12 @@ class _ManagePageState extends State<ManagePage> {
                       title: Text('关于'),
                       leading: Icon(Icons.info_outline),
                       onPressed: (context) {
-                        // Navigator.pushNamed(context, '/settings/info');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AboutPage()
+                          ),
+                        );
                       },
                     )
                   ],

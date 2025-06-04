@@ -18,14 +18,6 @@ class _FunctionAreaState extends State<StatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    //UI颜色
-    final Map<int, Color> buttonColors = {
-      0: Colors.black26, //背景颜色
-      1: Colors.purple[200]!, //激活颜色
-      2: Colors.purple[300]!, //按下颜色
-      3: Colors.purple[100]! //悬停颜色
-    };
-
     const destinations = [
       NavigationRailDestination(
         selectedIcon: Icon(Icons.mail),
