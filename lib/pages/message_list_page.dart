@@ -21,7 +21,13 @@ class _CertainMessageState extends State<StatefulWidget> {
       future: postUsername(username!),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return Center(
+            child: SizedBox(
+              width: 100,
+              height: 100,
+              child: CircularProgressIndicator(),
+            )
+          );
         } else if (snapshot.hasError) {
           return Text('Unknown Error');
         } else {

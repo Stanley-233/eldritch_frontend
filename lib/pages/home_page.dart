@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:eldritch_frontend/pages/manage_page.dart';
+import 'package:eldritch_frontend/pages/message_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/auth_service.dart';
@@ -17,8 +18,6 @@ class _FunctionAreaState extends State<StatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context);
-    final user = authService.user!;
     //UI颜色
     final Map<int, Color> buttonColors = {
       0: Colors.black26, //背景颜色
@@ -75,21 +74,6 @@ class _FunctionAreaState extends State<StatefulWidget> {
     }
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          actions: [
-            IconButton(
-              icon: Icon(Icons.logout),
-              tooltip: '退出登录',
-              onPressed: () async {
-                await authService.logout();
-                if (context.mounted) {
-                  Navigator.pushReplacementNamed((context), '/login');
-                }
-              },
-            ),
-          ],
-        ),
         body: Row(children: [
           ValueListenableBuilder<int>(
               valueListenable: funID,
@@ -98,7 +82,7 @@ class _FunctionAreaState extends State<StatefulWidget> {
               child: PageView(
             controller: _switchPage,
             children: [
-              Text('消息'),
+              MessageListPage(),
               Text('工单'),
               Text('反馈'),
               ManagePage(),
