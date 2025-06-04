@@ -4,7 +4,7 @@ import 'package:eldritch_frontend/models/message.dart';
 
 final apiUrl = "http://127.0.0.1:23353";
 
-Future<http.Response> postData(String username) async {
+Future<http.Response> postUsername(String username) async {
   final url = Uri.parse('$apiUrl/message');
   final response = await http.post(
     url,

@@ -12,24 +12,15 @@ class MessagePage extends StatefulWidget {
   State<StatefulWidget> createState() => _CertainMessageState();
 }
 
-class _CertainMessageState extends State<StatefulWidget>{
-  List<Message> messagesNow = [];
-
-  void syncMessages(String username) async {
-    final
-  }
-
+class _CertainMessageState extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
-    List<Message> messageReceived;
-    final authService = Provider.of<AuthService>(context);
-    final user = authService.user;
+    final username = AuthService().user?.name;
     return
       ListView.builder(
           itemCount:10,
           prototypeItem:ListTile(title: Text('1')),
           itemBuilder: (context, index){return BackButton();}
       );
-
   }
 }

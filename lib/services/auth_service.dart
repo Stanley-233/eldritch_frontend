@@ -19,11 +19,19 @@ enum RegisterStatus {
 }
 
 class AuthService with ChangeNotifier {
+  static final AuthService _instance = AuthService._internal();
+
   User? _user;
   bool _isLoading = false;
 
   User? get user => _user;
   bool get isLoading => _isLoading;
+
+  factory AuthService() {
+    return _instance;
+  }
+
+  AuthService._internal();
 
   // 登录
   Future<LoginStatus> login(String username, String password) async {
