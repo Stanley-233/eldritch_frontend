@@ -41,18 +41,30 @@ class _MessageAddPageState extends State<MessageAddPage> {
                   TextFormField(
                     controller: widget.titleController,
                     decoration: const InputDecoration(
-                      labelText: '消息标题',
+                      labelText: '任务标题',
                       border: OutlineInputBorder(),
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return '任务标题不可为空';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: widget.contentController,
                     decoration: const InputDecoration(
-                      labelText: '消息内容',
+                      labelText: '任务内容',
                       border: OutlineInputBorder(),
                     ),
-                    maxLines: 14,
+                    maxLines: 12,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return '任务内容不可为空';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 20),
                   /*const Text(
@@ -92,6 +104,7 @@ class _MessageAddPageState extends State<MessageAddPage> {
               // TODO: Implement message sending logic
             });
           },
+          tooltip: "发送消息",
           child: const Icon(Icons.send),
         ),
       ),

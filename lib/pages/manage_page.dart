@@ -1,5 +1,6 @@
 import 'package:card_settings_ui/card_settings_ui.dart';
 import 'package:eldritch_frontend/pages/about_page.dart';
+import 'package:eldritch_frontend/pages/group_list_page.dart';
 import 'package:eldritch_frontend/pages/user_view_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -71,12 +72,12 @@ class _ManagePageState extends State<ManagePage> {
                       leading: Icon(Icons.groups),
                       onPressed: (context) {
                         if (user!.isAdmin) {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => UserViewPage(),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => GroupListPage(),
+                            ),
+                          );
                         }
                         else {
                           showDialog(
@@ -131,7 +132,7 @@ class _ManagePageState extends State<ManagePage> {
             }
           },
           tooltip: '退出登录',
-          child: Icon(Icons.logout),
+          child: const Icon(Icons.logout),
         ),
       ),
     );

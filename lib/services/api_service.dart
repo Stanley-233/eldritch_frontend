@@ -12,6 +12,7 @@ String hashPassword(String password) {
 }
 
 Future<int> postLogin(String username, String password) async {
+  // TODO: Remove this debug code in production
   if (username == "debug" || password == "debug") return 200;
   final hashedPassword = hashPassword(password);
   final url = Uri.parse('$apiUrl/auth/login');

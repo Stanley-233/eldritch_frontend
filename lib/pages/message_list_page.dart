@@ -91,13 +91,10 @@ class _CertainMessageState extends State<StatefulWidget> {
                     },
                     separatorBuilder: (BuildContext context, int index) {
                       return Divider(
-                        height: 0,
-                        thickness: 10,
-                        color: Colors.grey,
-                        indent: 20,
-                        endIndent: 20,
+                        height: 2.0,
+                        color: Colors.transparent,
                       );
-                    },
+                    }
                   )
                 )
               );

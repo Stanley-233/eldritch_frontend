@@ -50,8 +50,8 @@ class _UserViewState extends State<StatefulWidget> {
               final userList = extractFromJson(utf8.decode(response.bodyBytes));
               return Center(
                 child: SizedBox(
-                  width: (MediaQuery.of(context).size.width > 1000) ? 1000 : MediaQuery.of(context).size.width,
-                  height: (MediaQuery.of(context).size.height > 1000) ? 1000 : MediaQuery.of(context).size.height,
+                  width: (MediaQuery.of(context).size.width > 800) ? 800 : MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
                   child: ListView.separated(
                     itemCount: userList.length,
                     itemBuilder: (BuildContext context, int index) {
