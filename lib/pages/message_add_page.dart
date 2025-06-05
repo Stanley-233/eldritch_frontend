@@ -6,7 +6,7 @@ class MessageAddPage extends StatefulWidget {
   final TextEditingController contentController = TextEditingController();
 
   @override
-  State<StatefulWidget> createState() => _MessageAddPageState();
+  State<MessageAddPage> createState() => _MessageAddPageState();
 }
 
 class _MessageAddPageState extends State<MessageAddPage> {

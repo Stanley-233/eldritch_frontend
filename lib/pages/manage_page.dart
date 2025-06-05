@@ -9,9 +9,8 @@ import '../services/auth_service.dart';
 
 class ManagePage extends StatefulWidget {
   const ManagePage({super.key});
-
   @override
-  State<StatefulWidget> createState() => _ManagePageState();
+  State<ManagePage> createState() => _ManagePageState();
 }
 
 class _ManagePageState extends State<ManagePage> {

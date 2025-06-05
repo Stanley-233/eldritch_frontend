@@ -12,10 +12,10 @@ class MessageListPage extends StatefulWidget {
   const MessageListPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _CertainMessageState();
+  State<MessageListPage> createState() => _CertainMessageState();
 }
 
-class _CertainMessageState extends State<StatefulWidget> {
+class _CertainMessageState extends State<MessageListPage> {
   @override
   Widget build(BuildContext context) {
     final username = AuthService().user?.name;
@@ -56,7 +56,7 @@ class _CertainMessageState extends State<StatefulWidget> {
                   child: Text("服务器内部错误"),
                 );
               }
-              final messageList = extractFromJson(utf8.decode(response.bodyBytes));
+              final messageList = extractMessagesFromJson(utf8.decode(response.bodyBytes));
               if (messageList.isEmpty) {
                 return Center(
                   child: Text('暂无消息'),
@@ -71,9 +71,9 @@ class _CertainMessageState extends State<StatefulWidget> {
                     itemBuilder: (BuildContext context, int index) {
                       String subtitle;
                       if (messageList[index].content.length < 30) {
-                        subtitle = messageList[index].content;
+                        subtitle = messageList[index].content.replaceAll('\n', ' ');
                       } else {
-                        subtitle = messageList[index].content.substring(0, 25);
+                        subtitle = messageList[index].content.substring(0, 25).replaceAll('\n', ' ');
                       }
                       return ListTile(
                           title: Text(messageList[index].title),

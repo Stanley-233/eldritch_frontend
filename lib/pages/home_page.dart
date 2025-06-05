@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
   @override
-  State<StatefulWidget> createState() => _FunctionAreaState();
+  State<HomePage> createState() => _FunctionAreaState();
 }
 
-class _FunctionAreaState extends State<StatefulWidget> {
+class _FunctionAreaState extends State<HomePage> {
   final ValueNotifier<int> funID = ValueNotifier(0);
   final _switchPage = PageController();
 
