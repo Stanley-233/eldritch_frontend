@@ -43,17 +43,19 @@ class _FunctionAreaState extends State<StatefulWidget> {
         groupAlignment: 1.0,
         labelType: NavigationRailLabelType.selected,
         leading: SizedBox(
-            width: 50,
-            child: Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: ClipOval(
-                  child: InkWell(
-                      customBorder: const CircleBorder(),
-                      onTap: () {
-                        //待开发
-                      },
-                      child: Image.asset('assets/images/stupid_rabbit.jpg')),
-                ))),
+          width: 50,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: ClipOval(
+              child: InkWell(
+                customBorder: const CircleBorder(),
+                onTap: () {
+                  //待开发
+                },
+                child: Image.asset('assets/images/stupid_rabbit.jpg')),
+            )
+          )
+        ),
         destinations: destinations,
         selectedIndex: index,
         onDestinationSelected: (int indexSelected) {
@@ -62,21 +64,25 @@ class _FunctionAreaState extends State<StatefulWidget> {
         });
     }
     return Scaffold(
-        body: Row(children: [
+      body: Row(
+        children: [
           ValueListenableBuilder<int>(
-              valueListenable: funID,
-              builder: (_, index, __) => buildLeftNavigation(index)),
+            valueListenable: funID,
+            builder: (_, index, __) => buildLeftNavigation(index)),
           Expanded(
-              child: PageView(
-            controller: _switchPage,
-            children: [
-              MessageListPage(),
-              Text('工单'),
-              Text('反馈'),
-              ManagePage(),
-            ],
-          ))
-        ]));
+            child: PageView(
+              controller: _switchPage,
+              children: [
+                MessageListPage(),
+                Text('工单'),
+                Text('反馈'),
+                ManagePage(),
+              ],
+            )
+          )
+        ]
+      )
+    );
   }
 
   @override

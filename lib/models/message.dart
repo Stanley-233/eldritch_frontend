@@ -4,7 +4,7 @@ class Message{
   final String title;
   final String content;
   final String creatorName;
-  int availableGroupID = -1;
+  List<int> availableGroupID = [];
 
   Message._receiveBuilder({
     required this.title,
@@ -23,7 +23,7 @@ class Message{
     return Message._receiveBuilder(
       title: json['title'],
       content: json['content'],
-      creatorName: json['createdBy']
+      creatorName: json['created_by']
     );
   }
 
@@ -31,8 +31,8 @@ class Message{
     return jsonEncode({
       'title' : title,
       'content' : content,
-      'creatorName' : creatorName,
-      'toGroup' : availableGroupID,
+      'created_by' : creatorName,
+      'access_groups_ids' : availableGroupID,
     });
   }
 }

@@ -76,7 +76,7 @@ class AuthService with ChangeNotifier {
         notifyListeners();
         return RegisterStatus.success;
       case 201:
-        _user = User(name: username, password: password);
+        _user = User(name: username, password: password, isAdmin: true);
         _isLoading = false;
         notifyListeners();
         return RegisterStatus.adminSuccess;

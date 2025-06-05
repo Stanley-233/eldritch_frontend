@@ -11,13 +11,14 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      name: json['name'],
+      name: json['username'],
       password: '',
+      isAdmin: json['is_admin'] ?? false,
     );
   }
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'token': password
+    'username': name,
+    'password': password
   };
 }

@@ -5,13 +5,13 @@ import 'package:http/http.dart' as http;
 
 final apiUrl = "http://127.0.0.1:23353";
 
-class postMessageRequest {
+class PostMessageRequest {
   final String title;
   final String content;
   final String createdBy;
   final List<int> accessGroupIds;
 
-  postMessageRequest({
+  PostMessageRequest({
     required this.title,
     required this.content,
     required this.createdBy,
@@ -31,7 +31,7 @@ Future<http.Response> postUsername(String username) async {
   return response;
 }
 
-Future<int> postMessage(postMessageRequest request) async {
+Future<int> postMessage(PostMessageRequest request) async {
   final url = Uri.parse('$apiUrl/message/create');
   final response = await http.post(
     url,
