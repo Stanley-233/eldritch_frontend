@@ -46,7 +46,7 @@ Future<int> postMessage(PostMessageRequest request) async {
   return response.statusCode;
 }
 
-List<Message> extractFromJson(String json){
+List<Message> extractMessagesFromJson(String json){
   dynamic parsedJson = jsonDecode(json);
   if (parsedJson is List){
     return parsedJson.map((e) => Message.fromJson(e)).toList();

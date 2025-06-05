@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:eldritch_frontend/pages/user_management_page.dart';
 import 'package:eldritch_frontend/services/user_view_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -9,10 +10,10 @@ class UserViewPage extends StatefulWidget {
   const UserViewPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _UserViewState();
+  State<UserViewPage> createState() => _UserViewState();
 }
 
-class _UserViewState extends State<StatefulWidget> {
+class _UserViewState extends State<UserViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +64,7 @@ class _UserViewState extends State<StatefulWidget> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => BackButton(),
+                                builder: (context) => UserManagementPage(userNow: userList[index]),
                               ),
                             );
                           },

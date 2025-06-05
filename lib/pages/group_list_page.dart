@@ -11,10 +11,10 @@ class GroupListPage extends StatefulWidget {
   const GroupListPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _GroupListState();
+  State<GroupListPage> createState() => _GroupListState();
 }
 
-class _GroupListState extends State<StatefulWidget> {
+class _GroupListState extends State<GroupListPage> {
   final Map<int, Color> colorMap = {
     1: Colors.green,
     2: Colors.blue,

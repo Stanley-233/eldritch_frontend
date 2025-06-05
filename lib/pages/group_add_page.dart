@@ -8,7 +8,7 @@ class GroupAddPage extends StatefulWidget {
   final contentController = TextEditingController();
 
   @override
-  State<StatefulWidget> createState() => _GroupAddPageState();
+  State<GroupAddPage> createState() => _GroupAddPageState();
 }
 
 class _GroupAddPageState extends State<GroupAddPage> {
