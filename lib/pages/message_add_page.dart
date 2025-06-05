@@ -1,16 +1,21 @@
+import 'dart:convert';
+
+import 'package:eldritch_frontend/services/api_service.dart';
+import 'package:eldritch_frontend/services/auth_service.dart';
+import 'package:eldritch_frontend/services/msg_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 
 class MessageAddPage extends StatefulWidget {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
-
   @override
   State<MessageAddPage> createState() => _MessageAddPageState();
 }
 
 class _MessageAddPageState extends State<MessageAddPage> {
   String markdownContent = "";
+  List<int> needToBeSend = [];
 
   @override
   void initState() {
@@ -20,6 +25,7 @@ class _MessageAddPageState extends State<MessageAddPage> {
 
   @override
   Widget build(BuildContext context) {
+    needToBeSend = [];
     return PopScope(
       child: Scaffold(
         appBar: AppBar(
@@ -66,7 +72,72 @@ class _MessageAddPageState extends State<MessageAddPage> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 20),
+                  FutureBuilder(
+                      future: getUserGroups(AuthService().user!.name),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                              child: SizedBox(
+                                width: 100,
+                                height: 100,
+                                child: CircularProgressIndicator(),
+                              )
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(
+                            child: Text('无法连接到服务器'),
+                          );
+                        }
+                        else {
+                          final response = snapshot.data!;
+                          final groupList = extractGroupsFromJson(utf8.decode(
+                              response.bodyBytes));
+                          if (response.statusCode != 200) {
+                            if (response.statusCode == 404) {
+                              return Center(
+                                child: Text('用户不存在，请重新登录'),
+                              );
+                            }
+                            return Center(
+                              child: Text("服务器内部错误"),
+                            );
+                          }
+                          if (groupList.isEmpty) {
+                            return Center(
+                              child: Text('暂无用户组'),
+                            );
+                          }
+                          return ListView.separated(
+                              itemBuilder: (BuildContext context, int index) {
+                                return CheckboxListTile(
+                                    title: Text(groupList[index].groupName),
+                                    value: false,
+                                    onChanged: (bool? value) {
+                                      if (value!) {
+                                        needToBeSend.add(
+                                            groupList[index].groupId);
+                                      }
+                                      else {
+                                        needToBeSend.remove(
+                                            groupList[index].groupId);
+                                      }
+                                    }
+                                );
+                              },
+                              itemCount: groupList.length,
+                              separatorBuilder: (BuildContext context,
+                                  int index) {
+                                return Divider(
+                                  height: 2.0,
+                                  color: Colors.transparent,
+                                );
+                              }
+                          );
+                        }
+                      }
+                  ),
+                  const SizedBox(height: 10),
                   /*const Text(
                     "消息预览",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
@@ -101,7 +172,14 @@ class _MessageAddPageState extends State<MessageAddPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              // TODO: Implement message sending logic
+              postMessage(
+                PostMessageRequest(
+                  title: widget.titleController.text,
+                  content: widget.contentController.text,
+                  createdBy: AuthService().user!.name,
+                  accessGroupIds: needToBeSend
+                )
+              );
             });
           },
           tooltip: "发送消息",
