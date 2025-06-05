@@ -19,10 +19,36 @@ class MessageView extends StatelessWidget{
             },
           ),
         ),
-        body: SizedBox(
-          width: 400,
-          height: 200,
-          child: Text(message.content),
+        body: Center(
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              Text(
+                message.title,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 40),
+              SizedBox(
+                width: MediaQuery.of(context).size.width > 1000 ? 1000 : MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height - 200,
+                child: Markdown(
+                  data: message.content,
+                  selectable: true,
+                  styleSheet: MarkdownStyleSheet(
+                    p: const TextStyle(fontSize: 14),
+                    h1: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    h2: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    h3: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                "${message.creatorName} 于 ${message.createdAt.toLocal().toString().split(' ').join(' ').substring(0, 19)}",
+                style: const TextStyle(fontSize: 14, color: Colors.grey),
+              ),
+            ],
+          )
         )
       )
     );

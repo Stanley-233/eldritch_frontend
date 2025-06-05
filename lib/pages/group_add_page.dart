@@ -62,7 +62,7 @@ class _GroupAddPageState extends State<GroupAddPage> {
                     const SizedBox(height: 20),
                     // 选择用户是否可以发送信息
                     CheckboxListTile(
-                      title: const Text("用户组下达任务权限"),
+                      title: const Text("用户组下达非对称消息权限"),
                       value: canSendMessage,
                       onChanged: (bool? value) {
                         setState(() {

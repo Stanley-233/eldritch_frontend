@@ -4,6 +4,7 @@ class Message{
   final String title;
   final String content;
   final String creatorName;
+  final DateTime createdAt = DateTime.now();
   List<int> availableGroupID = [];
 
   Message._receiveBuilder({
