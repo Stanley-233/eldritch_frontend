@@ -1,38 +1,33 @@
-import 'package:eldritch_frontend/pages/message_add_page.dart';
-import 'package:eldritch_frontend/services/msg_service.dart';
+import 'package:eldritch_frontend/services/user_view_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-
-import '../models/message.dart';
 import '../services/auth_service.dart';
-import 'message_view_page.dart';
 
-class MessageListPage extends StatefulWidget {
-  const MessageListPage({super.key});
+class UserViewPage extends StatefulWidget {
+  const UserViewPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _CertainMessageState();
+  State<StatefulWidget> createState() => _UserViewState();
 }
 
-class _CertainMessageState extends State<StatefulWidget> {
+class _UserViewState extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
-    final username = AuthService().user?.name;
     return Scaffold(
       appBar: AppBar(
-        title: Text('消息列表'),
+        title: Text('用户列表'),
       ),
       body: SingleChildScrollView(
           child: FutureBuilder<Response>(
-              future: postUsername(username!),
+              future: getUserList(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
                       child: SizedBox(
-                    width: 100,
-                    height: 100,
-                    child: CircularProgressIndicator(),
-                  ));
+                        width: 100,
+                        height: 100,
+                        child: CircularProgressIndicator(),
+                      ));
                 } else if (snapshot.hasError) {
                   return Center(
                     child: Text('无法连接到服务器'),
@@ -50,25 +45,17 @@ class _CertainMessageState extends State<StatefulWidget> {
                       child: Text("服务器内部错误"),
                     );
                   }
-                  final messageList = extractFromJson(response.body);
+                  final userList = extractFromJson(response.body);
                   return ListView.separated(
-                    itemCount: messageList.length,
+                    itemCount: userList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      String subtitle;
-                      if (messageList[index].content.length < 30) {
-                        subtitle = messageList[index].content;
-                      } else {
-                        subtitle = messageList[index].content.substring(0, 25);
-                      }
                       return ListTile(
-                          title: Text(messageList[index].title),
-                          subtitle: Text(subtitle),
+                          title: Text(userList[index].name),
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MessageViewPage(
-                                    message: messageList[index]),
+                                builder: (context) => BackButton(),
                               ),
                             );
                           });
@@ -85,14 +72,6 @@ class _CertainMessageState extends State<StatefulWidget> {
                   );
                 }
               })),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => MessageAddPage()));
-        },
-        label: const Text('发送消息'),
-        icon: const Icon(Icons.add),
-      ),
     );
   }
 }
