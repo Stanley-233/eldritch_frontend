@@ -1,6 +1,7 @@
-import 'package:http/http.dart';
 import 'package:eldritch_frontend/services/msg_service.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+
 import '../models/message.dart';
 import '../services/auth_service.dart';
 import 'message_view_page.dart';

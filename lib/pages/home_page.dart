@@ -1,10 +1,6 @@
-import 'dart:io';
-
 import 'package:eldritch_frontend/pages/manage_page.dart';
 import 'package:eldritch_frontend/pages/message_list_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../services/auth_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

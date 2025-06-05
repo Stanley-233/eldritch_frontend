@@ -1,7 +1,7 @@
+import 'package:card_settings_ui/card_settings_ui.dart';
 import 'package:eldritch_frontend/pages/about_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:card_settings_ui/card_settings_ui.dart';
 
 import '../services/auth_service.dart';
 

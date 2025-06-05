@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+
 import 'package:eldritch_frontend/models/message.dart';
+import 'package:http/http.dart' as http;
 
 final apiUrl = "http://127.0.0.1:23353";
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../models/message.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+
+import '../models/message.dart';
 
 class MessageViewPage extends StatelessWidget{
   final Message message;
