@@ -99,18 +99,38 @@ class _UserManagementState extends State<UserManagementPage> {
                   height: MediaQuery.of(context).size.height,
                   child: ListView.separated(
                     itemBuilder: (BuildContext context, int index) {
-                      bool checked =
-                      userGroups.contains(groupList[index]);
-                      return CheckboxListTile(
+                      return CheckboxListTile (
                         title: Text(groupList[index].groupName),
-                        value: checked,
-                        onChanged: (bool? value) {
+                          value: userGroups.any((group) => group.groupId == groupList[index].groupId),
+                        onChanged: (bool? value) async {
                           if (value!) {
-                            postAddGroup(widget.userNow.name,
-                                groupList[index].groupId);
+                            var code = await postAddGroup(widget.userNow.name, groupList[index].groupId);
+                            if (code == 200) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('成功加入该组')));
+                              Navigator.pop(context);
+                            } else if (code == 400) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('用户已在该组中')));
+                              Navigator.pop(context);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('添加失败，请稍后再试')));
+                            }
                           } else {
-                            postRemoveFromGroup(widget.userNow.name,
-                                groupList[index].groupId);
+                            final code = await postRemoveFromGroup(widget.userNow.name, groupList[index].groupId);
+                            if (code == 200) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('成功移出该组')));
+                              Navigator.pop(context);
+                            } else if (code == 400) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('用户已不在该组中')));
+                              Navigator.pop(context);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('删除失败，请稍后再试')));
+                            }
                           }
                         });
                     },

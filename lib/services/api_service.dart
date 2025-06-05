@@ -54,7 +54,7 @@ Future<http.Response> getGroupList() async {
 }
 
 Future<http.Response> getUserGroups(String username) async{
-  final url = Uri.parse('$apiUrl/users/$username');
+  final url = Uri.parse('$apiUrl/user_group/$username');
   final response = await http.get(url);
   return response;
 }
