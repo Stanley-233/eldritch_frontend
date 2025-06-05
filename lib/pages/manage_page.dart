@@ -1,5 +1,6 @@
 import 'package:card_settings_ui/card_settings_ui.dart';
 import 'package:eldritch_frontend/pages/about_page.dart';
+import 'package:eldritch_frontend/pages/user_view_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,7 @@ class ManagePage extends StatefulWidget {
 class _ManagePageState extends State<ManagePage> {
   @override
   Widget build(BuildContext context) {
+    final user = AuthService().user;
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -48,6 +50,32 @@ class _ManagePageState extends State<ManagePage> {
                       leading: Icon(Icons.lock),
                       onPressed: (context) {
                         // TODO
+                      },
+                    )
+                  ],
+                ),
+                SettingsSection(
+                  title: Text('用户'),
+                  tiles: [
+                    SettingsTile(
+                      title: Text('用户总览'),
+                      description: Text('查看用户列表并管理'),
+                      leading: Icon(Icons.lock),
+                      onPressed: (context) {
+                        if(user!.isAdmin) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UserViewPage(),
+                            ),
+                          );
+                        }
+                        else{
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) { return Text('没有权限访问！'); }
+                          );
+                        }
                       },
                     )
                   ],

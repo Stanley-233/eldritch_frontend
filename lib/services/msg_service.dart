@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 final apiUrl = "http://127.0.0.1:23353";
 
 Future<http.Response> postUsername(String username) async {
-  final url = Uri.parse('$apiUrl/message');
+  final url = Uri.parse('$apiUrl/message/get');
   final response = await http.post(
     url,
     headers: {'Content-Type': 'application/json'},

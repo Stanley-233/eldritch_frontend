@@ -23,7 +23,7 @@ class Message{
     return Message._receiveBuilder(
       title: json['title'],
       content: json['content'],
-      creatorName: json['creatorName']
+      creatorName: json['createdBy']
     );
   }
 
