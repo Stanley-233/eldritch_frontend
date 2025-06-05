@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:eldritch_frontend/pages/message_add_page.dart';
 import 'package:eldritch_frontend/services/msg_service.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +56,7 @@ class _CertainMessageState extends State<StatefulWidget> {
                   child: Text("服务器内部错误"),
                 );
               }
-              final messageList = extractFromJson(response.body);
+              final messageList = extractFromJson(utf8.decode(response.bodyBytes));
               if (messageList.isEmpty) {
                 return Center(
                   child: Text('暂无任务'),

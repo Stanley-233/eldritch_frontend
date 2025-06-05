@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:eldritch_frontend/services/user_view_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -45,7 +47,7 @@ class _UserViewState extends State<StatefulWidget> {
                   child: Text("服务器内部错误"),
                 );
               }
-              final userList = extractFromJson(response.body);
+              final userList = extractFromJson(utf8.decode(response.bodyBytes));
               return Center(
                 child: SizedBox(
                   width: (MediaQuery.of(context).size.width > 1000) ? 1000 : MediaQuery.of(context).size.width,
