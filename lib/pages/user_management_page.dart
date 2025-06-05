@@ -36,7 +36,7 @@ class _UserManagementState extends State<UserManagementPage> {
   void _loadData() {
     setState(() {
       _groupListFuture = getGroupList();
-      _userGroupsFuture = getUserGroups(AuthService().user!.name);
+      _userGroupsFuture = getUserGroups(widget.userNow.name);
     });
   }
 
