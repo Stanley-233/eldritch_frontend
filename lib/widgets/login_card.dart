@@ -60,7 +60,7 @@ class LoginCard extends StatelessWidget {
                         passwordController.text,
                       ).timeout(const Duration(seconds: 1));
                       switch (status) {
-                        case LoginStatus.success:
+                        case LoginStatus.success || LoginStatus.adminSuccess:
                           Navigator.pushReplacementNamed(context, '/home');
                           break;
                         case LoginStatus.wrongPassword:

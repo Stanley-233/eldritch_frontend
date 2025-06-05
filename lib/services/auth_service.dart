@@ -6,6 +6,7 @@ import '../models/user.dart';
 
 enum LoginStatus {
   success,
+  adminSuccess,
   wrongPassword,
   userNotFound,
   serverError
@@ -44,6 +45,11 @@ class AuthService with ChangeNotifier {
         _isLoading = false;
         notifyListeners();
         return LoginStatus.success;
+      case 201:
+        _user = User(name: username, password: password, isAdmin: true);
+        _isLoading = false;
+        notifyListeners();
+        return LoginStatus.adminSuccess;
       case 403:
         _isLoading = false;
         notifyListeners();
