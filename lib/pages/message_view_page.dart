@@ -12,7 +12,13 @@ class MessageViewPage extends StatelessWidget{
       home: Scaffold(
         appBar: AppBar(title: Text(message.title)),
         body: SingleChildScrollView(
-          child:Markdown(data: message.content)
+          child: Container(
+            width: double.infinity,
+            constraints: BoxConstraints(
+              minHeight: 100,
+            ),
+            child: Markdown(data: message.content),
+          )
         ),
       ),
     );

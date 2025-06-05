@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 
 class MessageAddPage extends StatefulWidget {
-  const MessageAddPage({Key? key}) : super(key: key);
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController contentController = TextEditingController();
+
   @override
-  _MessageAddPageState createState() => _MessageAddPageState();
+  State<StatefulWidget> createState() => _MessageAddPageState();
 }
 
 class _MessageAddPageState extends State<MessageAddPage> {
+  String markdownContent = "";
+
+  @override
+  void initState() {
+    super.initState();
+    markdownContent = widget.contentController.text;
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -20,9 +31,70 @@ class _MessageAddPageState extends State<MessageAddPage> {
             },
           ),
         ),
-        body: Text("TODO"),
-      )
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: SizedBox(
+              width: (MediaQuery.of(context).size.width > 800) ? 800 : null,
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: widget.titleController,
+                    decoration: const InputDecoration(
+                      labelText: '消息标题',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: widget.contentController,
+                    decoration: const InputDecoration(
+                      labelText: '消息内容',
+                      border: OutlineInputBorder(),
+                    ),
+                    maxLines: 14,
+                  ),
+                  const SizedBox(height: 20),
+                  /*const Text(
+                    "消息预览",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    width: (MediaQuery.of(context).size.width > 400) ? 400 : null,
+                    height: 300,
+                    child: Markdown(
+                      data: widget.contentController.text,
+                      styleSheet: MarkdownStyleSheet(
+                        p: const TextStyle(fontSize: 16, height: 1.5),
+                        h1: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        h2: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        h3: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        code: const TextStyle(fontFamily: 'Courier', fontSize: 14),
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        markdownContent = widget.contentController.text;
+                      });
+                    },
+                    child: Text("刷新 Markdown 预览"),
+                  )*/
+                ],
+              ),
+            ),
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              // TODO: Implement message sending logic
+            });
+          },
+          child: const Icon(Icons.send),
+        ),
+      ),
     );
   }
 }
-
