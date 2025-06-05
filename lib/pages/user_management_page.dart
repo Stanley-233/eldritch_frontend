@@ -1,17 +1,17 @@
 import 'dart:convert';
 
-import 'package:card_settings_ui/card_settings_ui.dart';
 import 'package:eldritch_frontend/services/api_service.dart';
-import 'package:eldritch_frontend/services/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 import '../models/user.dart';
 
 class UserManagementPage extends StatefulWidget {
   final User userNow;
+
   const UserManagementPage({super.key, required this.userNow});
+
   @override
   State<UserManagementPage> createState() => _UserManagementState();
 }
@@ -22,9 +22,8 @@ class _UserManagementState extends State<UserManagementPage> {
   late Future<http.Response> _userGroupsFuture;
 
   // 存储解析后的数据（可选）
-  List<dynamic>  groupList = [];
+  List<dynamic> groupList = [];
   List<dynamic> userGroups = [];
-
 
   @override
   void initState() {
@@ -42,18 +41,27 @@ class _UserManagementState extends State<UserManagementPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-        child: Scaffold(
-      body: FutureBuilder<List<Response>>(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('用户管理'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: PopScope(
+        child: FutureBuilder<List<Response>>(
           future: Future.wait([_groupListFuture, _userGroupsFuture]),
           builder: (context, AsyncSnapshot<List<Response>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                  child: SizedBox(
-                width: 100,
-                height: 100,
-                child: CircularProgressIndicator(),
-              ));
+                child: SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: CircularProgressIndicator(),
+                ));
             } else if (snapshot.hasError) {
               return Center(
                 child: Text('无法连接到服务器'),
@@ -76,49 +84,50 @@ class _UserManagementState extends State<UserManagementPage> {
                   child: Text("服务器内部错误"),
                 );
               }
-              final groupList =
-                  extractGroupsFromJson(utf8.decode(groupListResponse.bodyBytes));
-              final userGroups =
-                  extractGroupsFromJson(utf8.decode(userGroupsResponse.bodyBytes));
+              final groupList = extractGroupsFromJson(
+                  utf8.decode(groupListResponse.bodyBytes));
+              final userGroups = extractGroupsFromJson(
+                  utf8.decode(userGroupsResponse.bodyBytes));
               if (groupList.isEmpty) {
                 return Center(
                   child: Text('暂无用户组'),
                 );
               }
               return Center(
-                  child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      child: ListView.separated(
-                          itemBuilder: (BuildContext context, int index){
-                            bool checked = userGroups.contains(groupList[index]);
-                            return CheckboxListTile(
-                              title: Text(groupList[index].groupName),
-                              value: checked,
-                              onChanged: (bool? value){
-                                if(value!){
-                                  postAddGroup(widget.userNow.name, groupList[index].groupId);
-                                }
-                                else{
-                                  postRemoveFromGroup(widget.userNow.name, groupList[index].groupId);
-                                }
-                              }
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return Divider(
-                              height: 0,
-                              thickness: 10,
-                              color: Colors.grey,
-                              indent: 20,
-                              endIndent: 20,
-                            );
-                          },
-                          itemCount: groupList.length)
-                  )
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width > 800 ? 800 : MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: ListView.separated(
+                    itemBuilder: (BuildContext context, int index) {
+                      bool checked =
+                      userGroups.contains(groupList[index]);
+                      return CheckboxListTile(
+                        title: Text(groupList[index].groupName),
+                        value: checked,
+                        onChanged: (bool? value) {
+                          if (value!) {
+                            postAddGroup(widget.userNow.name,
+                                groupList[index].groupId);
+                          } else {
+                            postRemoveFromGroup(widget.userNow.name,
+                                groupList[index].groupId);
+                          }
+                        });
+                    },
+                    separatorBuilder:
+                        (BuildContext context, int index) {
+                      return Divider(
+                        height: 2,
+                        color: Colors.transparent,
+                      );
+                    },
+                    itemCount: groupList.length)
+                )
               );
             }
-          }),
-    ));
+          }
+        ),
+      )
+    );
   }
 }
