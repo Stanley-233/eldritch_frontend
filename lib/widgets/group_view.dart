@@ -40,7 +40,7 @@ class GroupView extends StatelessWidget{
                 ),
                 const SizedBox(height: 40),
                 CheckboxListTile(
-                  title: const Text("用户组下达任务权限"),
+                  title: const Text("用户组下达非对称消息权限"),
                   value: group.canSendMessage,
                   onChanged: (value) {},
                 )

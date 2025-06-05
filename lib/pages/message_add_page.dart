@@ -41,12 +41,12 @@ class _MessageAddPageState extends State<MessageAddPage> {
                   TextFormField(
                     controller: widget.titleController,
                     decoration: const InputDecoration(
-                      labelText: '任务标题',
+                      labelText: '消息标题',
                       border: OutlineInputBorder(),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return '任务标题不可为空';
+                        return '消息标题不可为空';
                       }
                       return null;
                     },
@@ -55,13 +55,13 @@ class _MessageAddPageState extends State<MessageAddPage> {
                   TextFormField(
                     controller: widget.contentController,
                     decoration: const InputDecoration(
-                      labelText: '任务内容',
+                      labelText: '消息内容',
                       border: OutlineInputBorder(),
                     ),
                     maxLines: 12,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return '任务内容不可为空';
+                        return '消息内容不可为空';
                       }
                       return null;
                     },

@@ -59,7 +59,7 @@ class _CertainMessageState extends State<StatefulWidget> {
               final messageList = extractFromJson(utf8.decode(response.bodyBytes));
               if (messageList.isEmpty) {
                 return Center(
-                  child: Text('暂无任务'),
+                  child: Text('暂无消息'),
                 );
               }
               return Center(
