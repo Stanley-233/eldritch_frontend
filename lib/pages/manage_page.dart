@@ -22,19 +22,6 @@ class _ManagePageState extends State<ManagePage> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('系统管理'),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.logout),
-              tooltip: '退出登录',
-              onPressed: () async {
-                final authService = Provider.of<AuthService>(context, listen: false);
-                await authService.logout();
-                if (context.mounted) {
-                  Navigator.pushReplacementNamed((context), '/login');
-                }
-              },
-            ),
-          ],
         ),
         body: Center(
           child: SizedBox(
@@ -42,27 +29,14 @@ class _ManagePageState extends State<ManagePage> {
             child: SettingsList(
               sections: [
                 SettingsSection(
-                  title: Text('用户组'),
-                  tiles: [
-                    SettingsTile(
-                      title: Text('新增用户组'),
-                      description: Text('创建一个新的用户组'),
-                      leading: Icon(Icons.lock),
-                      onPressed: (context) {
-                        // TODO
-                      },
-                    )
-                  ],
-                ),
-                SettingsSection(
-                  title: Text('用户'),
+                  title: Text('系统管理'),
                   tiles: [
                     SettingsTile(
                       title: Text('用户总览'),
                       description: Text('查看用户列表并管理'),
-                      leading: Icon(Icons.lock),
+                      leading: Icon(Icons.person),
                       onPressed: (context) {
-                        if(user!.isAdmin) {
+                        if (user!.isAdmin) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -70,10 +44,57 @@ class _ManagePageState extends State<ManagePage> {
                             ),
                           );
                         }
-                        else{
+                        else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('权限不足'),
+                                content: Text('您不是系统管理员，无法访问此页面。'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('确定'),
+                                  ),
+                                ],
+                              );
+                            }
+                          );
+                        }
+                      },
+                    ),
+                    SettingsTile(
+                      title: Text('用户组总览'),
+                      description: Text('查看用户组列表并管理'),
+                      leading: Icon(Icons.groups),
+                      onPressed: (context) {
+                        if (user!.isAdmin) {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => UserViewPage(),
+                          //   ),
+                          // );
+                        }
+                        else {
                           showDialog(
                               context: context,
-                              builder: (BuildContext context) { return Text('没有权限访问！'); }
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('权限不足'),
+                                  content: Text('您不是系统管理员，无法访问此页面。'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('确定'),
+                                    ),
+                                  ],
+                                );
+                              }
                           );
                         }
                       },
@@ -100,6 +121,17 @@ class _ManagePageState extends State<ManagePage> {
               ],
             )
           )
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            final authService = Provider.of<AuthService>(context, listen: false);
+            await authService.logout();
+            if (context.mounted) {
+              Navigator.pushReplacementNamed((context), '/login');
+            }
+          },
+          tooltip: '退出登录',
+          child: Icon(Icons.logout),
         ),
       ),
     );

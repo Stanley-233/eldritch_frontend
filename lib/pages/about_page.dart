@@ -22,6 +22,13 @@ class AboutPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // 添加一个 Icon，来自assets/images/stupid_rabbit.jpg
+              Image.asset(
+                'assets/images/stupid_rabbit.jpg',
+                width: 100,
+                height: 100,
+              ),
+              const SizedBox(height: 20),
               const Text(
                 'Eldritch 办公自动化工单系统',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
