@@ -4,6 +4,7 @@ import 'package:eldritch_frontend/services/user_view_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
+import '../services/api_service.dart';
 import '../widgets/group_view.dart';
 import 'group_add_page.dart';
 

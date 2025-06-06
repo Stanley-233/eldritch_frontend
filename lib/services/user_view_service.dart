@@ -19,11 +19,6 @@ List<User> extractFromJson(String json){
   return [];
 }
 
-Future<http.Response> getGroupList() async {
-  final url = Uri.parse('$apiUrl/user_group');
-  final response = await http.get(url);
-  return response;
-}
 
 List<UserGroup> extractGroupFromJson(String json) {
   dynamic parsedJson = jsonDecode(json);

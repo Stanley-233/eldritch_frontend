@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:eldritch_frontend/pages/user_management_page.dart';
+import 'package:eldritch_frontend/services/api_service.dart';
 import 'package:eldritch_frontend/services/user_view_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import '../services/auth_service.dart';
 
 class UserViewPage extends StatefulWidget {
@@ -58,21 +60,45 @@ class _UserViewState extends State<UserViewPage> {
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
                         title: Text(userList[index].name),
-                        onTap: () {
+                        onTap: () async {
+                          Future<http.Response> groupListFuture = getGroupList();
+                          Future<http.Response> userGroupsFuture = getUserGroups(userList[index].name);
+                          final gResponse = await groupListFuture;
+                          final uResponse = await userGroupsFuture;
+                          final groupList = extractGroupsFromJson(
+                              utf8.decode(gResponse.bodyBytes));
+                          final userGroups = extractGroupsFromJson(
+                              utf8.decode(uResponse.bodyBytes));
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => UserManagementPage(userNow: userList[index]),
+                              builder: (context) => UserManagementPage(
+                                userNow: userList[index],
+                                groupList: groupList,
+                                userGroups: userGroups,
+                              ),
                             ),
                           );
                         },
                         trailing: IconButton(
                           icon: Icon(Icons.edit),
-                          onPressed: () {
+                          onPressed: () async {
+                            Future<http.Response> groupListFuture = getGroupList();
+                            Future<http.Response> userGroupsFuture = getUserGroups(userList[index].name);
+                            final gResponse = await groupListFuture;
+                            final uResponse = await userGroupsFuture;
+                            final groupList = extractGroupsFromJson(
+                                utf8.decode(gResponse.bodyBytes));
+                            final userGroups = extractGroupsFromJson(
+                                utf8.decode(uResponse.bodyBytes));
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => UserManagementPage(userNow: userList[index]),
+                                builder: (context) => UserManagementPage(
+                                  userNow: userList[index],
+                                  groupList: groupList,
+                                  userGroups: userGroups,
+                                ),
                               ),
                             );
                           },
