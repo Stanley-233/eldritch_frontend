@@ -58,6 +58,14 @@ class _UserViewState extends State<UserViewPage> {
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
                         title: Text(userList[index].name),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UserManagementPage(userNow: userList[index]),
+                            ),
+                          );
+                        },
                         trailing: IconButton(
                           icon: Icon(Icons.edit),
                           onPressed: () {

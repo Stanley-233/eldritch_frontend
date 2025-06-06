@@ -101,7 +101,7 @@ class _UserManagementState extends State<UserManagementPage> {
                     itemBuilder: (BuildContext context, int index) {
                       return CheckboxListTile (
                         title: Text(groupList[index].groupName),
-                          value: userGroups.any((group) => group.groupId == groupList[index].groupId),
+                        value: userGroups.any((group) => group.groupId == groupList[index].groupId),
                         onChanged: (bool? value) async {
                           if (value!) {
                             var code = await postAddGroup(widget.userNow.name, groupList[index].groupId);
