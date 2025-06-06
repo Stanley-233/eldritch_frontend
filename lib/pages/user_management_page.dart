@@ -39,6 +39,8 @@ class _UserManagementState extends State<UserManagementPage> {
     });
   }
 
+  List<bool> isChecked = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,20 +101,27 @@ class _UserManagementState extends State<UserManagementPage> {
                   height: MediaQuery.of(context).size.height,
                   child: ListView.separated(
                     itemBuilder: (BuildContext context, int index) {
+                      isChecked[index] = false;
+                      for(int i = 0; i < userGroups.length; i++){
+                        if(groupList[index].groupId == userGroups[i].groupId){
+                          isChecked[index] = true;
+                        }
+                      }
                       return CheckboxListTile (
                         title: Text(groupList[index].groupName),
-                          value: userGroups.any((group) => group.groupId == groupList[index].groupId),
+                        value: isChecked[index],
                         onChanged: (bool? value) async {
                           if (value!) {
                             var code = await postAddGroup(widget.userNow.name, groupList[index].groupId);
                             if (code == 200) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text('成功加入该组')));
-                              Navigator.pop(context);
+                              setState(() {
+                                isChecked[index] = value;
+                              });
                             } else if (code == 400) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text('用户已在该组中')));
-                              Navigator.pop(context);
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text('添加失败，请稍后再试')));
@@ -122,11 +131,10 @@ class _UserManagementState extends State<UserManagementPage> {
                             if (code == 200) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text('成功移出该组')));
-                              Navigator.pop(context);
+
                             } else if (code == 400) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text('用户已不在该组中')));
-                              Navigator.pop(context);
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text('删除失败，请稍后再试')));
