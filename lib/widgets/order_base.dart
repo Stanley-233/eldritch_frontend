@@ -29,6 +29,7 @@ class OrdersPageBase extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
+            SizedBox(height: 10),
             Flexible(
               child: OrderColumn(
                 title: '待处理',
@@ -51,7 +52,8 @@ class OrdersPageBase extends StatelessWidget {
                 ordersFuture: rejectOrders,
                 isEditable: isEditable
               ),
-            )
+            ),
+            SizedBox(height: 20),
           ],
         ),
       ),
@@ -100,7 +102,7 @@ class OrderColumn extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: Colors.black)),
             SizedBox(
-                height: 10
+              height: 10
             ),
             Flexible(
               child: FutureBuilder(

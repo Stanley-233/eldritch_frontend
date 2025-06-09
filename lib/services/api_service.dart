@@ -19,9 +19,9 @@ String hashPassword(String password) {
   return digest.toString();
 }
 
-Future<int> postLogin(String username, String password) async {
+Future<http.Response> postLogin(String username, String password) async {
   // TODO: Remove this debug code in production
-  if (username == "debug" || password == "debug") return 200;
+  // if (username == "debug" || password == "debug") return 200;
   final hashedPassword = hashPassword(password);
   final url = Uri.parse('$apiUrl/auth/login');
   final response = await http.post(
@@ -29,25 +29,33 @@ Future<int> postLogin(String username, String password) async {
     headers: {'Content-Type': 'application/json'},
     body: json.encode({'username': username, 'password': hashedPassword}),
   );
-  return response.statusCode;
+  return response;
 }
 
-Future<int> postRegister(String username, String password) async {
+Future<http.Response> postRegister(String username, String password) async {
   final hashedPassword = hashPassword(password);
   final url = Uri.parse('$apiUrl/auth/register');
+  final accessToken = AuthService().accessToken;
   final response = await http.post(
     url,
-    headers: {'Content-Type': 'application/json'},
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $accessToken', // 添加 Bearer Token
+    },
     body: json.encode({'username': username, 'password': hashedPassword}),
   );
-  return response.statusCode;
+  return response;
 }
 
 Future<int> postAddGroup(String username, int group_id) async{
   final url = Uri.parse('$apiUrl/users/add_group');
+  final accessToken = AuthService().accessToken; // 获取当前用户的访问令牌
   final response = await http.post(
     url,
-    headers: {'Content-Type': 'application/json'},
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $accessToken', // 添加 Bearer Token
+    },
     body: json.encode({'username' : username, 'group_id' : group_id})
   );
   return response.statusCode;
@@ -55,13 +63,21 @@ Future<int> postAddGroup(String username, int group_id) async{
 
 Future<http.Response> getGroupList() async {
   final url = Uri.parse('$apiUrl/user_group/');
-  final response = await http.get(url);
+  final accessToken = AuthService().accessToken;
+  final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $accessToken', // 添加 Bearer Token
+    });
   return response;
 }
 
 Future<http.Response> getUserGroups(String username) async{
   final url = Uri.parse('$apiUrl/user_group/$username');
-  final response = await http.get(url);
+  final accessToken = AuthService().accessToken;
+  final response = await http.get(url, headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer $accessToken', // 添加 Bearer Token
+  });
   return response;
 }
 
@@ -75,9 +91,13 @@ List<UserGroup> extractGroupsFromJson(String json){
 
 Future<dynamic> postRemoveFromGroup(String username, int group_id) async {
   final url = Uri.parse('$apiUrl/users/remove_group');
+  final accessToken = AuthService().accessToken;
   final response = await http.post(
       url,
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken'
+      },
       body: json.encode({'username' : username, 'group_id' : group_id})
   );
   return response.statusCode;
@@ -101,7 +121,10 @@ Future<http.Response> postUsername(String username) async {
   final url = Uri.parse('$apiUrl/message/get');
   final response = await http.post(
       url,
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${AuthService().accessToken}', // 添加 Bearer Token
+      },
       body: jsonEncode({
         'username': username
       })
@@ -113,7 +136,10 @@ Future<int> postMessage(PostMessageRequest request) async {
   final url = Uri.parse('$apiUrl/message/create');
   final response = await http.post(
     url,
-    headers: {'Content-Type': 'application/json'},
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${AuthService().accessToken}', // 添加 Bearer Token
+    },
     body: jsonEncode({
       'title': request.title,
       'content': request.content,
@@ -135,7 +161,9 @@ List<Message> extractMessagesFromJson(String json){
 Future<List<Order>> getCreateUserOrders(String type) async {
   final username = AuthService().user?.name;
   final url = Uri.parse('$apiUrl/order/create_user=${username!}/$type');
-  final response = await http.get(url);
+  final response = await http.get(url, headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ${AuthService().accessToken}'});
   dynamic parsedJson = jsonDecode(utf8.decode(response.bodyBytes));
   if (parsedJson is List) {
     return parsedJson.map((e) => Order.fromJson(e)).toList();
@@ -146,7 +174,10 @@ Future<List<Order>> getCreateUserOrders(String type) async {
 Future<List<Order>> getAssignedUserOrders(String type) async {
   final username = AuthService().user?.name;
   final url = Uri.parse('$apiUrl/order/assigned_user=${username!}/$type');
-  final response = await http.get(url);
+  final response = await http.get(url,headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ${AuthService().accessToken}'
+  });
   dynamic parsedJson = jsonDecode(utf8.decode(response.bodyBytes));
   if (parsedJson is List) {
     return parsedJson.map((e) => Order.fromJson(e)).toList();
@@ -156,7 +187,10 @@ Future<List<Order>> getAssignedUserOrders(String type) async {
 
 Future<http.Response> getOrderReport(int orderId) async {
   final url = Uri.parse('$apiUrl/order/order_id=$orderId/report');
-  final response = await http.get(url);
+  final response = await http.get(url,headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ${AuthService().accessToken}'
+  });
   return response;
 }
 
@@ -178,7 +212,8 @@ Future<int> postOrder(OrderRequest request) async {
   final url = Uri.parse('$apiUrl/order/create');
   final response = await http.post(
     url,
-    headers: {'Content-Type': 'application/json'},
+    headers: {'Content-Type': 'application/json',
+    'Authorization': 'Bearer ${AuthService().accessToken}'}, // 添加 Bearer Token
     body: jsonEncode({
       'title': request.title,
       'content': request.content,
@@ -207,7 +242,10 @@ Future<int> postReport(ReportRequest request) async {
   final url = Uri.parse('$apiUrl/order/report/create');
   final response = await http.post(
     url,
-    headers: {'Content-Type': 'application/json'},
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${AuthService().accessToken}', // 添加 Bearer Token
+    },
     body: jsonEncode({
       'order_id': request.orderId,
       'content': request.content,

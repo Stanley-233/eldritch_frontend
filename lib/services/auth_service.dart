@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:eldritch_frontend/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,6 +26,7 @@ class AuthService with ChangeNotifier {
 
   User? _user;
   bool _isLoading = false;
+  String accessToken = "";
 
   User? get user => _user;
   bool get isLoading => _isLoading;
@@ -38,16 +41,18 @@ class AuthService with ChangeNotifier {
   Future<LoginStatus> login(String username, String password) async {
     // _isLoading = true;
     notifyListeners();
-    final status = await postLogin(username, password);
-    switch (status) {
+    final response = await postLogin(username, password);
+    switch (response.statusCode) {
       case 200:
         _user = User(name: username, password: password);
         _isLoading = false;
+        accessToken = jsonDecode(response.body)['access_token'] ?? '';
         notifyListeners();
         return LoginStatus.success;
       case 201:
         _user = User(name: username, password: password, isAdmin: true);
         _isLoading = false;
+        accessToken = jsonDecode(response.body)['access_token'] ?? '';
         notifyListeners();
         return LoginStatus.adminSuccess;
       case 403:
@@ -68,16 +73,18 @@ class AuthService with ChangeNotifier {
   Future<RegisterStatus> register(String username, String password) async {
     // _isLoading = true;
     notifyListeners();
-    final status = await postRegister(username, password);
-    switch(status) {
+    final response = await postRegister(username, password);
+    switch(response.statusCode) {
       case 200:
         _user = User(name: username, password: password);
         _isLoading = false;
+        accessToken = response.headers['access_token'] ?? '';
         notifyListeners();
         return RegisterStatus.success;
       case 201:
         _user = User(name: username, password: password, isAdmin: true);
         _isLoading = false;
+        accessToken = response.headers['access_token'] ?? '';
         notifyListeners();
         return RegisterStatus.adminSuccess;
       case 409:
