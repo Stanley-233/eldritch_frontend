@@ -1,6 +1,5 @@
 import 'package:eldritch_frontend/pages/manage_page.dart';
 import 'package:eldritch_frontend/pages/message_list_page.dart';
-import 'package:eldritch_frontend/pages/orders_list_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -75,7 +74,8 @@ class _FunctionAreaState extends State<HomePage> {
               controller: _switchPage,
               children: [
                 MessageListPage(),
-                OrderListPage(),
+                Text('工单'),
+                // OrderListPage(),
                 Text('反馈'),
                 ManagePage(),
               ],

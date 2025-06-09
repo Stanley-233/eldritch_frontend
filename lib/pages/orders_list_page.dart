@@ -1,21 +1,33 @@
+// dart
 import 'package:flutter/material.dart';
 
-class OrderListPage extends StatefulWidget {
-  const OrderListPage({super.key});
+import '../models/order.dart';
+import '../widgets/order_base.dart';
 
-  @override
-  State<OrderListPage> createState() => _OrderListPageState();
-}
+class OrderListPage extends StatelessWidget {
+  final Future<List<Order>> openOrders;
+  final Future<List<Order>> rejectOrders;
+  final Future<List<Order>> closedOrders;
 
-class _OrderListPageState extends State<OrderListPage> {
+  const OrderListPage({
+    Key? key,
+    required this.openOrders,
+    required this.rejectOrders,
+    required this.closedOrders,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('工单列表'),
-      ),
-      body: Center(
-        child: Text('工单列表内容'),
+    return OrdersPageBase(
+      openOrders: openOrders,
+      rejectOrders: rejectOrders,
+      closedOrders: closedOrders,
+      title: '订单列表',
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // 按钮事件
+        },
+        child: Icon(Icons.add),
       ),
     );
   }
