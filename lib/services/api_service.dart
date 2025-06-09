@@ -154,6 +154,12 @@ Future<List<Order>> getAssignedUserOrders(String type) async {
   return [];
 }
 
+Future<http.Response> getOrderReport(int orderId) async {
+  final url = Uri.parse('$apiUrl/orders/report/$orderId');
+  final response = await http.get(url);
+  return response;
+}
+
 class OrderRequest {
   final String title;
   final String content;
@@ -166,16 +172,6 @@ class OrderRequest {
     required this.createdBy,
     required this.accessGroupIds,
   });
-}
-
-Future<Report> getOrderReport(int orderId) async {
-  final url = Uri.parse('$apiUrl/orders/report/$orderId');
-  final response = await http.get(url);
-  if (response.statusCode == 200) {
-    return Report.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
-  } else {
-    throw Exception('Failed to load report');
-  }
 }
 
 Future<int> postOrder(OrderRequest request) async {

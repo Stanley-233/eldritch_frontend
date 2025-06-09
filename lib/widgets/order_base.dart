@@ -103,9 +103,14 @@ class OrderColumn extends StatelessWidget {
                   );
                 } else {
                   final orderList = snapshot.data;
-                  if (orderList == null || orderList.isEmpty) {
+                  if (orderList == null) {
                     return Center(
-                      child: Text('暂无工单'),
+                      child: Text('无法连接到服务器'),
+                    );
+                  }
+                  if (orderList.isEmpty) {
+                    return Center(
+                      child: Text('暂无此类工单'),
                     );
                   }
                   return ListView.separated(
