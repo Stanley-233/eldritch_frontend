@@ -144,7 +144,7 @@ class _OrderAddPageState extends State<OrderAddPage> {
                             separatorBuilder: (BuildContext context, int index) {
                               return Divider(
                                 height: 2.0,
-                                color: Colors.transparent,
+                                color: Colors.grey,
                               );
                             },
                           ),

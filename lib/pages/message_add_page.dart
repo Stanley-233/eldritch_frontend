@@ -144,7 +144,7 @@ class _MessageAddPageState extends State<MessageAddPage> {
                           separatorBuilder: (BuildContext context, int index) {
                             return Divider(
                               height: 2.0,
-                              color: Colors.transparent,
+                              color: Colors.grey,
                             );
                           },
                         ),
