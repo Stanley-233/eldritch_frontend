@@ -50,6 +50,7 @@ class _MessageAddPageState extends State<MessageAddPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return PopScope(
       child: Scaffold(
         appBar: AppBar(
@@ -64,83 +65,97 @@ class _MessageAddPageState extends State<MessageAddPage> {
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Center(
-            child: SizedBox(
-              width: (MediaQuery.of(context).size.width > 800) ? 800 : null,
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: widget.titleController,
-                      decoration: const InputDecoration(
-                        labelText: '消息标题',
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return '消息标题不可为空';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: widget.contentController,
-                      decoration: const InputDecoration(
-                        labelText: '消息内容',
-                        border: OutlineInputBorder(),
-                      ),
-                      maxLines: 12,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return '消息内容不可为空';
-                        }
-                        return null;
-                      },
-                    ),
-                    isLoading ? Center(
-                      child: SizedBox(
-                        width: 100,
-                        height: 100,
-                        child: CircularProgressIndicator(),
-                      ),
-                    ) : groupList.isEmpty ? Center(
-                      child: Text('暂无用户组'),
-                    ) : SizedBox(
-                      width: MediaQuery.of(context).size.width > 800 ? 800 : MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 2,
-                      child: ListView.separated(
-                        itemBuilder: (BuildContext context, int index) {
-                          return CheckboxListTile(
-                            title: Text(groupList[index].groupName),
-                            value: isChecked[index],
-                            onChanged: (bool? value) {
-                              setState(() {
-                                isChecked[index] = value!;
-                                if (value) {
-                                  needToBeSend.add(groupList[index].groupId);
-                                } else {
-                                  needToBeSend.remove(groupList[index].groupId);
-                                }
-                              });
-                            },
-                          );
-                        },
-                        itemCount: groupList.length,
-                        separatorBuilder: (BuildContext context, int index) {
-                          return Divider(
-                            height: 2.0,
-                            color: Colors.transparent,
-                          );
+            child: Container(
+              decoration: BoxDecoration(
+                color: theme.colorScheme.secondaryContainer, // 背景颜色
+                borderRadius: BorderRadius.circular(12.0), // 圆角
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3), // 阴影偏移
+                  ),
+                ],
+              ),
+              child: SizedBox(
+                width: (MediaQuery.of(context).size.width > 800) ? 800 : null,
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: widget.titleController,
+                        decoration: const InputDecoration(
+                          labelText: '消息标题',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return '消息标题不可为空';
+                          }
+                          return null;
                         },
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              )
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: widget.contentController,
+                        decoration: const InputDecoration(
+                          labelText: '消息内容',
+                          border: OutlineInputBorder(),
+                        ),
+                        maxLines: 12,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return '消息内容不可为空';
+                          }
+                          return null;
+                        },
+                      ),
+                      isLoading ? Center(
+                        child: SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: CircularProgressIndicator(),
+                        ),
+                      ) : groupList.isEmpty ? Center(
+                        child: Text('暂无用户组'),
+                      ) : SizedBox(
+                        width: MediaQuery.of(context).size.width > 800 ? 800 : MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height / 2,
+                        child: ListView.separated(
+                          itemBuilder: (BuildContext context, int index) {
+                            return CheckboxListTile(
+                              title: Text(groupList[index].groupName),
+                              value: isChecked[index],
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  isChecked[index] = value!;
+                                  if (value) {
+                                    needToBeSend.add(groupList[index].groupId);
+                                  } else {
+                                    needToBeSend.remove(groupList[index].groupId);
+                                  }
+                                });
+                              },
+                            );
+                          },
+                          itemCount: groupList.length,
+                          separatorBuilder: (BuildContext context, int index) {
+                            return Divider(
+                              height: 2.0,
+                              color: Colors.transparent,
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
+                )
+              ),
             ),
-          ),
+        ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
