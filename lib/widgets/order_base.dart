@@ -89,12 +89,8 @@ class OrderColumn extends StatelessWidget {
         ],
       ),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width > 1200
-            ? 1200
-            : MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.width > 900
-            ? 900 / 3 - 50
-            : MediaQuery.of(context).size.height / 3 - 50,
+        width: MediaQuery.of(context).size.width > 1000 ? 1000 : MediaQuery.of(context).size.width - 100,
+        height: MediaQuery.of(context).size.width > 900 ? 900 / 3 - 50 : MediaQuery.of(context).size.height / 3 - 50,
         child: Column(
           children: [
             SizedBox(height: 5),

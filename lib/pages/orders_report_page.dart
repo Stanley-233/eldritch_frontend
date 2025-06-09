@@ -33,7 +33,7 @@ class _OrderReportPage extends State<OrderReportPage>{
       ),
       body: Center(
         child: SizedBox(
-          width: MediaQuery.of(context).size.width > 1200 ? 1200 : MediaQuery.of(context).size.width,
+          width: MediaQuery.of(context).size.width > 1000 ? 1000 : MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height - 100,
           child: Column(
             children: [
@@ -42,7 +42,7 @@ class _OrderReportPage extends State<OrderReportPage>{
                 style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width > 1200 ? 1200 : MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width > 1000 ? 1000 : MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height - 400,
                 child: Markdown(data: widget.order.content),
               ),
