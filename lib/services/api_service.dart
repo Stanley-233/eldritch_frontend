@@ -35,12 +35,10 @@ Future<http.Response> postLogin(String username, String password) async {
 Future<http.Response> postRegister(String username, String password) async {
   final hashedPassword = hashPassword(password);
   final url = Uri.parse('$apiUrl/auth/register');
-  final accessToken = AuthService().accessToken;
   final response = await http.post(
     url,
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $accessToken', // 添加 Bearer Token
+      'Content-Type': 'application/json'
     },
     body: json.encode({'username': username, 'password': hashedPassword}),
   );

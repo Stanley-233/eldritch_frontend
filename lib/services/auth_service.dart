@@ -46,13 +46,13 @@ class AuthService with ChangeNotifier {
       case 200:
         _user = User(name: username, password: password);
         _isLoading = false;
-        accessToken = jsonDecode(response.body)['access_token'] ?? '';
+        accessToken = jsonDecode(response.body)['token'] ?? '';
         notifyListeners();
         return LoginStatus.success;
       case 201:
         _user = User(name: username, password: password, isAdmin: true);
         _isLoading = false;
-        accessToken = jsonDecode(response.body)['access_token'] ?? '';
+        accessToken = jsonDecode(response.body)['token'] ?? '';
         notifyListeners();
         return LoginStatus.adminSuccess;
       case 403:
@@ -78,13 +78,13 @@ class AuthService with ChangeNotifier {
       case 200:
         _user = User(name: username, password: password);
         _isLoading = false;
-        accessToken = response.headers['access_token'] ?? '';
+        accessToken = response.headers['token'] ?? '';
         notifyListeners();
         return RegisterStatus.success;
       case 201:
         _user = User(name: username, password: password, isAdmin: true);
         _isLoading = false;
-        accessToken = response.headers['access_token'] ?? '';
+        accessToken = response.headers['token'] ?? '';
         notifyListeners();
         return RegisterStatus.adminSuccess;
       case 409:

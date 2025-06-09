@@ -1,13 +1,19 @@
 import 'dart:convert';
+
 import 'package:eldritch_frontend/models/user_group.dart';
 import 'package:http/http.dart' as http;
+
 import '../models/user.dart';
+import 'auth_service.dart';
 
 final apiUrl = "http://127.0.0.1:23353";
 
 Future<http.Response> getUserList() async {
   final url = Uri.parse('$apiUrl/users');
-  final response = await http.get(url);
+  final response = await http.get(url, headers: {
+    'Content-Type': 'application',
+    'Authorization': 'Bearer ${AuthService().accessToken}'
+  });
   return response;
 }
 
@@ -29,7 +35,10 @@ List<UserGroup> extractGroupFromJson(String json) {
 
 Future<int> deleteGroup(int groupId) async {
   final url = Uri.parse('$apiUrl/user_group/$groupId');
-  final response = await http.delete(url);
+  final response = await http.delete(url, headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ${AuthService().accessToken}', // 添加 Bearer Token
+  });
   return response.statusCode;
 }
 
@@ -37,7 +46,10 @@ Future<http.Response> createGroup(UserGroup newGroup) async {
   final url = Uri.parse('$apiUrl/user_group/create');
   final response = await http.post(
     url,
-    headers: {'Content-Type': 'application/json'},
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${AuthService().accessToken}', // 添加 Bearer Token
+    },
     body: jsonEncode({
       'group_name': newGroup.groupName,
       'group_description': newGroup.groupDescription,
