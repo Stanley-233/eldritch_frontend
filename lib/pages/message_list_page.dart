@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 import '../services/auth_service.dart';
+import '../services/api_service.dart';
 import '../widgets/message_view.dart';
 
 class MessageListPage extends StatefulWidget {

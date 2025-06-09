@@ -19,7 +19,6 @@ List<User> extractFromJson(String json){
   return [];
 }
 
-
 List<UserGroup> extractGroupFromJson(String json) {
   dynamic parsedJson = jsonDecode(json);
   if (parsedJson is List) {
