@@ -147,8 +147,8 @@ class _OrderAddPageState extends State<OrderAddPage> {
             if (_formKey.currentState?.validate() != true) {
               return;
             }
-            final code = await postMessage(
-              PostMessageRequest(
+            final code = await postOrder(
+              OrderRequest(
                 title: widget.titleController.text,
                 content: widget.contentController.text,
                 createdBy: AuthService().user!.name,

@@ -216,7 +216,7 @@ Future<int> postOrder(OrderRequest request) async {
       'title': request.title,
       'content': request.content,
       'created_by': request.createdBy,
-      'access_group_ids': request.accessGroupIds,
+      'assigned_groups': request.accessGroupIds,
     }),
   );
   return response.statusCode;

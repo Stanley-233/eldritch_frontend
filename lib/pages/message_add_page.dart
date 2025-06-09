@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 class MessageAddPage extends StatefulWidget {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
+  MessageAddPage({super.key});
   @override
   State<MessageAddPage> createState() => _MessageAddPageState();
 }
