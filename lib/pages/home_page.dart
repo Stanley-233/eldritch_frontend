@@ -1,5 +1,6 @@
 import 'package:eldritch_frontend/pages/manage_page.dart';
 import 'package:eldritch_frontend/pages/message_list_page.dart';
+import 'package:eldritch_frontend/pages/orders_list_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,7 +29,7 @@ class _FunctionAreaState extends State<HomePage> {
       ),
       NavigationRailDestination(
         selectedIcon: Icon(Icons.notifications),
-        icon: Icon(Icons.notifications_outlined),
+        icon: Icon(Icons.text_snippet),
         label: Text('反馈'),
       ),
       NavigationRailDestination(
@@ -52,7 +53,7 @@ class _FunctionAreaState extends State<HomePage> {
                 onTap: () {
                   //待开发
                 },
-                child: Image.asset('assets/images/stupid_rabbit.jpg')),
+                child: Image.asset('assets/images/logo_rect.png')),
             )
           )
         ),
@@ -74,7 +75,7 @@ class _FunctionAreaState extends State<HomePage> {
               controller: _switchPage,
               children: [
                 MessageListPage(),
-                Text('工单'),
+                OrderListPage(),
                 Text('反馈'),
                 ManagePage(),
               ],
