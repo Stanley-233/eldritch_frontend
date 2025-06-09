@@ -10,9 +10,18 @@ import '../models/report.dart';
 
 class OrderView extends StatelessWidget{
   final Order order;
+
   const OrderView({super.key, required this.order});
   @override
   Widget build(BuildContext context) {
+    String orderStatus = "";
+    if (order.status == "open") {
+      orderStatus = "处理中";
+    } else if (order.status == "reject") {
+      orderStatus = "驳回";
+    } else if (order.status == "closed") {
+      orderStatus = "已反馈";
+    }
     return PopScope(
       child: Scaffold(
         appBar: AppBar(
@@ -66,21 +75,31 @@ class OrderView extends StatelessWidget{
               // TODO
               final report = Report.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
               showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text("反馈信息"),
-                      content: const Text("TODO"),
-                      actions: [
-                        TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text("确定")
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("反馈信息"),
+                    content: Column(
+                      children: [
+                        Text("反馈内容：${report.content}"),
+                        const SizedBox(height: 5),
+                        Text("处理意见：$orderStatus"),
+                        Text(
+                          "${report.createdBy} 于 ${report.createdAt.toLocal().toString().split(' ').join(' ').substring(0, 19)}",
+                          style: const TextStyle(fontSize: 12, color: Colors.grey)
                         )
-                      ]
-                    );
-                  }
+                      ],
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text("确定")
+                      )
+                    ]
+                  );
+                }
               );
             } else if (response.statusCode == 401) {
               showDialog(
