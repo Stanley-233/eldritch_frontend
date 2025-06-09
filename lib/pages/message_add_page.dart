@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:eldritch_frontend/models/user_group.dart';
 import 'package:eldritch_frontend/services/api_service.dart';
 import 'package:eldritch_frontend/services/auth_service.dart';
-import 'package:eldritch_frontend/services/msg_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 

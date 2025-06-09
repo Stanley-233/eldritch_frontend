@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:eldritch_frontend/pages/message_add_page.dart';
-import 'package:eldritch_frontend/services/msg_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
