@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:eldritch_frontend/models/order.dart';
 import 'package:eldritch_frontend/services/api_service.dart';
+import 'package:eldritch_frontend/widgets/report_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:http/http.dart';
@@ -76,35 +77,9 @@ class OrderView extends StatelessWidget{
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text("反馈信息"),
-                    content: SizedBox(
-                      width: MediaQuery.of(context).size.width > 500 ? 500 : MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.width > 300 ? 300 : MediaQuery.of(context).size.height,
-                      child: Center(
-                        child: Column(
-                          // 中间居中
-                          children: [
-                            Text("反馈内容：${report.content}"),
-                            const SizedBox(height: 5),
-                            Text("处理意见：$orderStatus"),
-                            const SizedBox(height: 5),
-                            Text(
-                                "${report.createdBy} 于 ${report.createdAt.toLocal().toString().split(' ').join(' ').substring(0, 19)}",
-                                style: const TextStyle(fontSize: 12, color: Colors.grey)
-                            )
-                          ],
-                        ),
-                      )
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text("确定")
-                      )
-                    ]
+                  return ReportDialog(
+                    report: report,
+                    orderStatus: orderStatus
                   );
                 }
               );
