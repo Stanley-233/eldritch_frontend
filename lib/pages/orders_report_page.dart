@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:eldritch_frontend/services/api_service.dart';
 import 'package:eldritch_frontend/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import '../models/order.dart';
+import '../models/report.dart';
+import '../widgets/report_dialog.dart';
 
 class OrderReportPage extends StatefulWidget{
   final Order order;
@@ -75,6 +79,28 @@ class _OrderReportPage extends State<OrderReportPage>{
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          String orderStatus = "";
+          if (widget.order.status == "open") {
+            orderStatus = "处理中";
+          } else if (widget.order.status == "reject") {
+            orderStatus = "已驳回";
+          } else if (widget.order.status == "closed") {
+            orderStatus = "已同意";
+          }
+          final response = await getOrderReport(widget.order.orderId);
+          final report = Report.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+          if (orderStatus != "处理中") {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return ReportDialog(
+                  title: "已存在反馈，无法创建",
+                  report: report,
+                  orderStatus: orderStatus
+                );
+              }
+            );
+          }
           if (formKey.currentState!.validate()) {
             ReportRequest ret =
             ReportRequest(
