@@ -18,9 +18,9 @@ class OrderView extends StatelessWidget{
     if (order.status == "open") {
       orderStatus = "处理中";
     } else if (order.status == "reject") {
-      orderStatus = "驳回";
+      orderStatus = "已驳回";
     } else if (order.status == "closed") {
-      orderStatus = "已反馈";
+      orderStatus = "已同意";
     }
     return PopScope(
       child: Scaffold(
@@ -56,7 +56,7 @@ class OrderView extends StatelessWidget{
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 40),
               Text(
                 "${order.createdBy} 于 ${order.createdAt.toLocal().toString().split(' ').join(' ').substring(0, 19)}",
                 style: const TextStyle(fontSize: 14, color: Colors.grey),
@@ -72,23 +72,30 @@ class OrderView extends StatelessWidget{
           onPressed: () async {
             final response = await getOrderReport(order.orderId);
             if (response.statusCode == 200) {
-              // TODO
               final report = Report.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
                     title: const Text("反馈信息"),
-                    content: Column(
-                      children: [
-                        Text("反馈内容：${report.content}"),
-                        const SizedBox(height: 5),
-                        Text("处理意见：$orderStatus"),
-                        Text(
-                          "${report.createdBy} 于 ${report.createdAt.toLocal().toString().split(' ').join(' ').substring(0, 19)}",
-                          style: const TextStyle(fontSize: 12, color: Colors.grey)
-                        )
-                      ],
+                    content: SizedBox(
+                      width: MediaQuery.of(context).size.width > 500 ? 500 : MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.width > 300 ? 300 : MediaQuery.of(context).size.height,
+                      child: Center(
+                        child: Column(
+                          // 中间居中
+                          children: [
+                            Text("反馈内容：${report.content}"),
+                            const SizedBox(height: 5),
+                            Text("处理意见：$orderStatus"),
+                            const SizedBox(height: 5),
+                            Text(
+                                "${report.createdBy} 于 ${report.createdAt.toLocal().toString().split(' ').join(' ').substring(0, 19)}",
+                                style: const TextStyle(fontSize: 12, color: Colors.grey)
+                            )
+                          ],
+                        ),
+                      )
                     ),
                     actions: [
                       TextButton(
@@ -107,7 +114,7 @@ class OrderView extends StatelessWidget{
                 builder: (BuildContext context) {
                   return AlertDialog(
                     title: const Text("暂无反馈"),
-                    content: const Text("暂无反馈"),
+                    content: const Text("工单未处理，暂无反馈"),
                     actions: [
                       TextButton(
                         onPressed: () {

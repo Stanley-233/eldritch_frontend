@@ -78,7 +78,6 @@ class _GroupAddPageState extends State<GroupAddPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            // TODO: 保存用户组信息
             if (_formKey.currentState?.validate() != true) {
               return;
             }

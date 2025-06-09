@@ -1,3 +1,5 @@
+import 'package:eldritch_frontend/pages/orders_report_page.dart';
+import 'package:eldritch_frontend/widgets/order_view.dart';
 import 'package:flutter/material.dart';
 
 import '../models/order.dart';
@@ -24,30 +26,32 @@ class OrdersPageBase extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: Column(
-        children: [
-          Flexible(
-            child: OrderColumn(
-              title: '---待处理---',
-              ordersFuture: openOrders,
-              isEditable: isEditable,
-            )
-          ),
-          Flexible(
-            child: OrderColumn(
-              title: '---已批准---',
-              ordersFuture: rejectOrders,
-              isEditable: isEditable,
-            )
-          ),
-          Flexible(
-            child: OrderColumn(
-              title: '---已拒绝---',
-              ordersFuture: closedOrders,
-              isEditable: isEditable
+      body: Center(
+        child: Column(
+          children: [
+            Flexible(
+              child: OrderColumn(
+                title: '---待处理---',
+                ordersFuture: openOrders,
+                isEditable: isEditable,
+              )
             ),
-          )
-        ],
+            Flexible(
+              child: OrderColumn(
+                title: '---已批准---',
+                ordersFuture: closedOrders,
+                isEditable: isEditable,
+              )
+            ),
+            Flexible(
+              child: OrderColumn(
+                title: '---已驳回---',
+                ordersFuture: rejectOrders,
+                isEditable: isEditable
+              ),
+            )
+          ],
+        ),
       ),
       floatingActionButton: floatingActionButton,
     );
@@ -105,7 +109,7 @@ class OrderColumn extends StatelessWidget {
                   final orderList = snapshot.data;
                   if (orderList == null) {
                     return Center(
-                      child: Text('无法连接到服务器'),
+                      child: Text('返回为空'),
                     );
                   }
                   if (orderList.isEmpty) {
@@ -124,15 +128,20 @@ class OrderColumn extends StatelessWidget {
                         title: Text(orderList[index].title),
                         subtitle: Text(preview),
                         onTap: () {
-                          // TODO
                           if (isEditable) {
-                            // return;
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OrderReportPage(order: orderList[index]),
+                              ),
+                            );
                           } else {
-                            // Navigator.pushNamed(
-                            //   context,
-                            //   '/order_detail',
-                            //   arguments: orderList[index],
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OrderView(order: orderList[index]),
+                              ),
+                            );
                           }
                         },
                       );

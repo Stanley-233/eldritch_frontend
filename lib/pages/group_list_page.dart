@@ -42,7 +42,6 @@ class _GroupListState extends State<GroupListPage> {
       ),
       body: SingleChildScrollView(
         child: FutureBuilder<Response>(
-          // TODO
           future: getGroupList(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -117,7 +116,6 @@ class _GroupListState extends State<GroupListPage> {
                                     TextButton(
                                       child: Text("删除"),
                                       onPressed: () async {
-                                        // TODO
                                         final responseCode = await deleteGroup(groupList[index].groupId);
                                         Navigator.pop(context);
                                         if (responseCode == 200) {
@@ -141,7 +139,6 @@ class _GroupListState extends State<GroupListPage> {
                           },
                         ),
                         onTap: () {
-                          // TODO
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -167,7 +164,6 @@ class _GroupListState extends State<GroupListPage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // TODO
           Navigator.push(context,
             MaterialPageRoute(builder: (context) => GroupAddPage()));
         },

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class Order{
-  int orderId = -1;
+  int orderId;
   final String title;
   final String content;
   final String status;
@@ -22,6 +22,7 @@ class Order{
   });
 
   Order({
+    required this.orderId,
     required this.title,
     required this.content,
     required this.status,
@@ -33,7 +34,7 @@ class Order{
 
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order._receiveBuilder(
-      orderId: json['id'] ?? -1,
+      orderId: json['order_id'] ?? -1,
       title: json['title'],
       content: json['content'],
       status: json['status'],

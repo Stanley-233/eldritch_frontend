@@ -134,7 +134,7 @@ List<Message> extractMessagesFromJson(String json){
 
 Future<List<Order>> getCreateUserOrders(String type) async {
   final username = AuthService().user?.name;
-  final url = Uri.parse('$apiUrl/orders/create_user=${username!}/$type');
+  final url = Uri.parse('$apiUrl/order/create_user=${username!}/$type');
   final response = await http.get(url);
   dynamic parsedJson = jsonDecode(utf8.decode(response.bodyBytes));
   if (parsedJson is List) {
@@ -145,7 +145,7 @@ Future<List<Order>> getCreateUserOrders(String type) async {
 
 Future<List<Order>> getAssignedUserOrders(String type) async {
   final username = AuthService().user?.name;
-  final url = Uri.parse('$apiUrl/orders/assigned_user=${username!}/$type');
+  final url = Uri.parse('$apiUrl/order/assigned_user=${username!}/$type');
   final response = await http.get(url);
   dynamic parsedJson = jsonDecode(utf8.decode(response.bodyBytes));
   if (parsedJson is List) {
@@ -155,7 +155,7 @@ Future<List<Order>> getAssignedUserOrders(String type) async {
 }
 
 Future<http.Response> getOrderReport(int orderId) async {
-  final url = Uri.parse('$apiUrl/orders/report/$orderId');
+  final url = Uri.parse('$apiUrl/order/order_id=$orderId/report');
   final response = await http.get(url);
   return response;
 }
@@ -175,7 +175,7 @@ class OrderRequest {
 }
 
 Future<int> postOrder(OrderRequest request) async {
-  final url = Uri.parse('$apiUrl/orders/create');
+  final url = Uri.parse('$apiUrl/order/create');
   final response = await http.post(
     url,
     headers: {'Content-Type': 'application/json'},
@@ -204,7 +204,7 @@ class ReportRequest {
 }
 
 Future<int> postReport(ReportRequest request) async {
-  final url = Uri.parse('$apiUrl/orders/report');
+  final url = Uri.parse('$apiUrl/order/report/create');
   final response = await http.post(
     url,
     headers: {'Content-Type': 'application/json'},
