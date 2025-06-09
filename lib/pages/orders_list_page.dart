@@ -1,4 +1,5 @@
 // dart
+import 'package:eldritch_frontend/pages/order_add_page.dart';
 import 'package:flutter/material.dart';
 
 import '../models/order.dart';
@@ -26,7 +27,8 @@ class OrderListPage extends StatelessWidget {
       title: '工单列表',
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // TODO: 按钮事件
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => OrderAddPage()));
         },
         icon: Icon(Icons.add),
         label: Text("创建工单")
