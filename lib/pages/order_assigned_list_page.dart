@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import '../models/order.dart';
 import '../widgets/order_base.dart';
 
-class OrderListPage extends StatelessWidget {
+class OrderAssignedListPage extends StatelessWidget {
   final Future<List<Order>> openOrders;
   final Future<List<Order>> rejectOrders;
   final Future<List<Order>> closedOrders;
 
-  const OrderListPage({
-    Key? key,
+  const OrderAssignedListPage({
+    super.key,
     required this.openOrders,
     required this.rejectOrders,
     required this.closedOrders,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,15 +22,8 @@ class OrderListPage extends StatelessWidget {
       openOrders: openOrders,
       rejectOrders: rejectOrders,
       closedOrders: closedOrders,
-      isEditable: false,
-      title: '工单列表',
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          // 按钮事件
-        },
-        icon: Icon(Icons.add),
-        label: Text("创建工单")
-      ),
+      isEditable: true,
+      title: '待处理列表'
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:eldritch_frontend/pages/manage_page.dart';
 import 'package:eldritch_frontend/pages/message_list_page.dart';
+import 'package:eldritch_frontend/pages/order_assigned_list_page.dart';
 import 'package:eldritch_frontend/pages/orders_list_page.dart';
 import 'package:flutter/material.dart';
 
@@ -30,9 +31,9 @@ class _FunctionAreaState extends State<HomePage> {
         label: Text('工单'),
       ),
       NavigationRailDestination(
-        selectedIcon: Icon(Icons.notifications),
-        icon: Icon(Icons.text_snippet),
-        label: Text('反馈'),
+        selectedIcon: Icon(Icons.text_snippet),
+        icon: Icon(Icons.text_snippet_outlined),
+        label: Text('待处理'),
       ),
       NavigationRailDestination(
         selectedIcon: Icon(Icons.manage_accounts),
@@ -81,8 +82,12 @@ class _FunctionAreaState extends State<HomePage> {
                   openOrders: getCreateUserOrders("open"),
                   rejectOrders: getCreateUserOrders("reject"),
                   closedOrders: getCreateUserOrders("closed")
-                ),  
-                Text('反馈'),
+                ),
+                OrderAssignedListPage(
+                    openOrders: getAssignedUserOrders("open"),
+                    rejectOrders: getAssignedUserOrders("reject"),
+                    closedOrders: getAssignedUserOrders("closed")
+                ),
                 ManagePage(),
               ],
             )
