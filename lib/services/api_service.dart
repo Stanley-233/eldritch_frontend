@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
@@ -8,6 +9,7 @@ import 'package:http/http.dart' as http;
 
 import '../models/message.dart';
 import '../models/order.dart';
+import '../models/report.dart';
 
 final apiUrl = "http://127.0.0.1:23353";
 
@@ -150,4 +152,72 @@ Future<List<Order>> getAssignedUserOrders(String type) async {
     return parsedJson.map((e) => Order.fromJson(e)).toList();
   }
   return [];
+}
+
+class OrderRequest {
+  final String title;
+  final String content;
+  final String createdBy;
+  final List<int> accessGroupIds;
+
+  OrderRequest({
+    required this.title,
+    required this.content,
+    required this.createdBy,
+    required this.accessGroupIds,
+  });
+}
+
+Future<Report> getOrderReport(int orderId) async {
+  final url = Uri.parse('$apiUrl/orders/report/$orderId');
+  final response = await http.get(url);
+  if (response.statusCode == 200) {
+    return Report.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+  } else {
+    throw Exception('Failed to load report');
+  }
+}
+
+Future<int> postOrder(OrderRequest request) async {
+  final url = Uri.parse('$apiUrl/orders/create');
+  final response = await http.post(
+    url,
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({
+      'title': request.title,
+      'content': request.content,
+      'created_by': request.createdBy,
+      'access_group_ids': request.accessGroupIds,
+    }),
+  );
+  return response.statusCode;
+}
+
+class ReportRequest {
+  final int orderId;
+  final String content;
+  final String status;
+  final String createdBy;
+
+  ReportRequest({
+    required this.orderId,
+    required this.content,
+    required this.status,
+    required this.createdBy,
+  });
+}
+
+Future<int> postReport(ReportRequest request) async {
+  final url = Uri.parse('$apiUrl/orders/report');
+  final response = await http.post(
+    url,
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({
+      'order_id': request.orderId,
+      'content': request.content,
+      'status': request.status,
+      'created_by': request.createdBy,
+    }),
+  );
+  return response.statusCode;
 }

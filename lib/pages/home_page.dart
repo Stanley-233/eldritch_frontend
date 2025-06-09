@@ -1,6 +1,9 @@
 import 'package:eldritch_frontend/pages/manage_page.dart';
 import 'package:eldritch_frontend/pages/message_list_page.dart';
+import 'package:eldritch_frontend/pages/orders_list_page.dart';
 import 'package:flutter/material.dart';
+
+import '../services/api_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -74,8 +77,11 @@ class _FunctionAreaState extends State<HomePage> {
               controller: _switchPage,
               children: [
                 MessageListPage(),
-                Text('工单'),
-                // OrderListPage(),
+                OrderListPage(
+                  openOrders: getCreateUserOrders("open"),
+                  rejectOrders: getCreateUserOrders("reject"),
+                  closedOrders: getCreateUserOrders("closed")
+                ),  
                 Text('反馈'),
                 ManagePage(),
               ],
