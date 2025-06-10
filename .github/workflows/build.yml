@@ -26,12 +26,12 @@ jobs:
         run: flutter pub get
 
       - name: Build IPA
-        run: flutter build ipa --release --no-codesign
+        run: flutter build ios --release --no-codesign
 
       - name: Create IPA
         run: |
           mkdir Payload
-          cp -R build/ios/ipa/Runner.app Payload/Runner.app
+          cp -R build/ios/iphoneos/Runner.app Payload/Runner.app
           zip -q -r Eldritch_ios_canary_no_sign.ipa Payload
 
       - name: Upload iOS build
