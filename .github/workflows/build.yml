@@ -32,7 +32,7 @@ jobs:
         run: |
           mkdir Payload
           cp -R build/ios/iphoneos/Runner.app Payload/Runner.app
-          zip -q -r Eldritch_ios_canary_no_sign.ipa Payload
+          zip -q -r Eldritch_ios_no_sign.ipa Payload
 
       - name: Upload iOS build
         uses: actions/upload-artifact@v4
@@ -46,7 +46,7 @@ jobs:
       - name: Create DMG
         run: |
           mkdir -p build/dist
-          cp -a build/macos/Build/Products/Release/Eldritch OA.app build/dist/
+          cp -a "build/macos/Build/Products/Release/Eldritch OA.app" build/dist/
           ln -s /Applications build/dist/Applications
           hdiutil create -format UDZO -srcfolder build/dist -volname eldritch Eldritch_macos_canary.dmg
 
