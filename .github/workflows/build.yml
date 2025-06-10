@@ -25,16 +25,34 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build iOS (no sign)
+      - name: Build IPA
         run: flutter build ipa --release --no-codesign
+
+      - name: Create IPA
+        run: |
+          mkdir Payload
+          cp -R build/ios/iphoneos/Runner.app Payload/Runner.app
+          zip -q -r Eldritch_ios_canary_no_sign.ipa Payload
+
+      - name: Upload iOS build
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios_outputs
+          path: Kazumi_ios_*.ipa
 
       - name: Build macOS
         run: flutter build macos --release
 
-      - name: Upload artifacts
+      - name: Create DMG
+        run: |
+          mkdir -p build/dist
+          cp -a build/macos/Build/Products/Release/Eldritch OA.app build/dist/
+          ln -s /Applications build/dist/Applications
+          hdiutil create -format UDZO -srcfolder build/dist -volname eldritch Eldritch_macos_canary.dmg
+
+      - name: Upload macOS build
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifacts
-          path: |
-            build/ios/ipa
-            build/macos/Build/Products/Release
+          name: macos_outputs
+          path: Eldritch_macos_canary.dmg
+      
