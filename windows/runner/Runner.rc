@@ -93,9 +93,9 @@ BEGIN
             VALUE "FileDescription", "eldritch_frontend" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "eldritch_frontend" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2025 top.bearingwall. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 Stanley. All rights reserved." "\0"
             VALUE "OriginalFilename", "eldritch_frontend.exe" "\0"
-            VALUE "ProductName", "eldritch_frontend" "\0"
+            VALUE "ProductName", "Eldritch 办公自动化工单系统" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

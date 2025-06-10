@@ -85,7 +85,7 @@ class _FunctionAreaState extends State<HomePage> {
                 onTap: () {
                   //待开发
                 },
-                child: Image.asset('assets/images/logo_rect.png'),
+                child: Image.asset('assets/images/logo.png'),
               ),
             ),
           ),
