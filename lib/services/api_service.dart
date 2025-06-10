@@ -11,7 +11,7 @@ import '../models/message.dart';
 import '../models/order.dart';
 import '../models/report.dart';
 
-final apiUrl = "http://127.0.0.1:23353";
+final apiUrl = "https://eld-api.bearingwall.top";
 
 String hashPassword(String password) {
   var bytes = utf8.encode(password); // 将密码转换为字节数组

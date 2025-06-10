@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import '../models/user.dart';
 import 'auth_service.dart';
 
-final apiUrl = "http://127.0.0.1:23353";
+final apiUrl = "https://eld-api.bearingwall.top";
 
 Future<http.Response> getUserList() async {
   final url = Uri.parse('$apiUrl/users');
