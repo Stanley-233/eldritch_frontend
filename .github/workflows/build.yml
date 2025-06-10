@@ -1,0 +1,40 @@
+name: Build Project
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build iOS and macOS Releases
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.2'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build iOS (no sign)
+        run: flutter build ipa --release --no-codesign
+
+      - name: Build macOS
+        run: flutter build macos --release
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: |
+            build/ios/ipa
+            build/macos/Build/Products/Release
